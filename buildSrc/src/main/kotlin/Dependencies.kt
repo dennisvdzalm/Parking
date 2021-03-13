@@ -18,10 +18,19 @@ object Dependencies {
             val androidx_material = "com.google.android.material:material:${version}"
         }
 
+        object AppCompat {
+            private const val version = "1.3.0-beta01"
+            const val appcompat = "androidx.appcompat:appcompat:$version"
+        }
+
+        object Activity {
+            private const val version = "1.3.0-alpha04"
+            const val activity_compose = "androidx.activity:activity-compose:$version"
+        }
+
         object Navigation {
-            private const val version = "2.0.0"
-            val androidx_navigation_fragment = "androidx.navigation:navigation-fragment-ktx:${version}"
-            val androidx_navigation_ui = "androidx.navigation:navigation-ui-ktx:${version}"
+            private const val version = "1.0.0-alpha09"
+            const val navigation_compose = "androidx.navigation:navigation-compose:$version"
         }
 
         object RecyclerView {
@@ -35,10 +44,15 @@ object Dependencies {
             val compiler = "androidx.lifecycle:lifecycle-compiler:${version}"
             val testing = "androidx.arch.core:core-testing:${version}"
             val viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${version}"
+
+            object Compose {
+                private const val version = "1.0.0-alpha03"
+                const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
+            }
         }
 
         object Compose {
-            private const val version = "1.0.0-beta02"
+            const val version = "1.0.0-beta02"
             const val ui = "androidx.compose.ui:ui:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -49,13 +63,8 @@ object Dependencies {
             const val material_icons = "androidx.compose.material:material-icons-extended:${version}"
         }
 
-        object AppCompat {
-            private val version = "2.2.0"
-
-        }
-
         object Test {
-            private val version = "1.1.1"
+            private const val version = "1.1.1"
             val rules = "androidx.test:rules:${version}"
             val runner = "androidx.test:runner:${version}"
 
@@ -69,16 +78,6 @@ object Dependencies {
     object JUnit {
         private const val version = "4.13.1"
         val testlib_junit = "junit:junit:${version}"
-    }
-
-    object Kotlin {
-        private const val version = "1.4.31"
-        val plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${version}"
-    }
-
-    object Android {
-        private const val version = "7.0.0-alpha09"
-        val plugin = "com.android.tools.build:gradle:${version}"
     }
 
     object GradleDependencies {
@@ -125,6 +124,7 @@ object Dependencies {
         val android = "io.insert-koin:koin-android:${version}"
         val android_scope = "io.insert-koin:koin-android-scope:${version}"
         val android_viewmodel = "io.insert-koin:koin-androidx-viewmodel:${version}"
+        val koin_compose = "io.insert-koin:koin-androidx-compose:${version}"
     }
 
     object MlKit {
@@ -142,13 +142,13 @@ object Dependencies {
     }
 
     object Viewbinding {
-        private const val version = "1.3.1"
-        val delegate = "com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:${version}"
+        private const val version = "1.4.4"
+        val delegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${version}"
     }
 
 
     object SqlDelight {
-        private const val version = "1.4.3"
+        private const val version = "1.4.4"
         val gradle_plugin = "com.squareup.sqldelight:gradle-plugin:${version}"
         val runtime = "com.squareup.sqldelight:runtime:${version}"
         val coroutinesExtensions = "com.squareup.sqldelight:coroutines-extensions:${version}"
