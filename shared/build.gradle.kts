@@ -31,7 +31,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":shared:network"))
+                implementation(project(":shared:data"))
                 api(project(":shared:core"))
                 implementation(Dependencies.Koin.core)
             }

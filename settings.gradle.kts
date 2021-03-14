@@ -11,5 +11,5 @@ rootProject.name = "Parking"
 
 include(":parking-android")
 include(":shared")
-include(":shared:network")
+include(":shared:data")
 include(":shared:core")

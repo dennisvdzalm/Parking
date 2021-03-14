@@ -4,10 +4,10 @@ import nl.dennisvanderzalm.parking.shared.core.models.Config
 import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
 import nl.dennisvanderzalm.parking.shared.core.usecases.LoginUseCase
 import nl.dennisvanderzalm.parking.shared.core.repositories.LoginRepository
-import nl.dennisvanderzalm.parking.shared.network.repositories.LoginRepositoryImpl
-import nl.dennisvanderzalm.parking.shared.network.service.LoginService
-import nl.dennisvanderzalm.parking.shared.network.source.LoginDataSource
-import nl.dennisvanderzalm.parking.shared.network.source.remote.RemoteLoginDataSource
+import nl.dennisvanderzalm.parking.shared.data.repositories.LoginRepositoryImpl
+import nl.dennisvanderzalm.parking.shared.data.service.LoginService
+import nl.dennisvanderzalm.parking.shared.data.source.LoginDataSource
+import nl.dennisvanderzalm.parking.shared.data.source.remote.RemoteLoginDataSource
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
