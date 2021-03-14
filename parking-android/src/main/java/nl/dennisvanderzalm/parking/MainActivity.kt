@@ -1,42 +1,38 @@
 package nl.dennisvanderzalm.parking
 
 
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import by.kirich1409.viewbindingdelegate.viewBinding
-import nl.dennisvanderzalm.parking.databinding.ActivityMainBinding
-import nl.dennisvanderzalm.parking.licenseplatescanner.EXTRA_LICENSE_PLATE_RESULT
-import nl.dennisvanderzalm.parking.licenseplatescanner.NumberPlateCaptureActivity
-import nl.dennisvanderzalm.parking.login.LoginActivity
+import androidx.compose.ui.ExperimentalComposeUiApi
+import nl.dennisvanderzalm.parking.ui.ParkingApp
+import nl.dennisvanderzalm.parking.ui.theme.ParkingTheme
 
 private const val REQUEST_CODE_NUMBERPLATE = 100
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
 
-    private val binding: ActivityMainBinding by viewBinding(ActivityMainBinding::bind, R.id.container)
+//    private val binding: ActivityMainBinding by viewBinding(ActivityMainBinding::bind, R.id.container)
 
+    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.btnStartCapture.setOnClickListener {
-            val intent = Intent(this, NumberPlateCaptureActivity::class.java)
-
-            startActivityForResult(intent, REQUEST_CODE_NUMBERPLATE)
+        setContent {
+            ParkingTheme {
+                ParkingApp()
+            }
         }
+//        binding.btnStartCapture.setOnClickListener {
+//            val intent = Intent(this, NumberPlateCaptureActivity::class.java)
+//
+//            startActivityForResult(intent, REQUEST_CODE_NUMBERPLATE)
+//        }
 
-        binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-
-            startActivity(intent)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_NUMBERPLATE) {
-            binding.tvNumberPlate.text = data?.getStringExtra(EXTRA_LICENSE_PLATE_RESULT)
-        }
+//        binding.btnLogin.setOnClickListener {
+//            val intent = Intent(this, LoginActivity::class.java)
+//
+//            startActivity(intent)
+//        }
     }
 }

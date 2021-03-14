@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.login
+package nl.dennisvanderzalm.parking.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

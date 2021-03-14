@@ -1,7 +1,7 @@
 package nl.dennisvanderzalm.parking
 
 import android.app.Application
-import nl.dennisvanderzalm.parking.login.LoginViewModel
+import nl.dennisvanderzalm.parking.ui.login.LoginViewModel
 import nl.dennisvanderzalm.parking.shared.di.Koin
 import nl.dennisvanderzalm.parking.shared.core.models.Config
 import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
