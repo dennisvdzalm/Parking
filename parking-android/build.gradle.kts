@@ -48,6 +48,7 @@ dependencies {
     implementation(Dependencies.Androidx.Compose.material)
     implementation(Dependencies.Androidx.Compose.material_icons)
     implementation(Dependencies.Androidx.Activity.activity_compose)
+    implementation(Dependencies.Androidx.Navigation.navigation_compose)
     implementation(Dependencies.Androidx.Lifecycle.Compose.viewModelCompose)
 
     implementation(Dependencies.MlKit.text_recognition)
