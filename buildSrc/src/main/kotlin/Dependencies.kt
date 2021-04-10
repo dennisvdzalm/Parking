@@ -24,7 +24,7 @@ object Dependencies {
         }
 
         object Activity {
-            private const val version = "1.3.0-alpha04"
+            private const val version = "1.3.0-alpha06"
             const val activity_compose = "androidx.activity:activity-compose:$version"
         }
 
@@ -39,20 +39,20 @@ object Dependencies {
         }
 
         object Lifecycle {
-            private const val version = "2.2.0"
+            private const val version = "2.3.1"
             val extensions = "androidx.lifecycle:lifecycle-extensions:${version}"
             val compiler = "androidx.lifecycle:lifecycle-compiler:${version}"
             val testing = "androidx.arch.core:core-testing:${version}"
             val viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${version}"
 
             object Compose {
-                private const val version = "1.0.0-alpha03"
+                private const val version = "1.0.0-alpha04"
                 const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             }
         }
 
         object Compose {
-            const val version = "1.0.0-beta02"
+            const val version = "1.0.0-beta04"
             const val ui = "androidx.compose.ui:ui:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -76,7 +76,7 @@ object Dependencies {
     }
 
     object JUnit {
-        private const val version = "4.13.1"
+        private const val version = "4.13.2"
         val testlib_junit = "junit:junit:${version}"
     }
 
@@ -91,7 +91,7 @@ object Dependencies {
     }
 
     object Ktor {
-        private const val version = "1.5.2"
+        private const val version = "1.5.3"
         val client_android = "io.ktor:ktor-client-android:${version}"
         val client_ios = "io.ktor:ktor-client-ios:${version}"
         val client_core = "io.ktor:ktor-client-core:${version}"
@@ -134,15 +134,15 @@ object Dependencies {
 
 
     object Camerax {
-        private const val version = "1.0.0-rc1"
+        private const val version = "1.1.0-alpha03"
         val core = "androidx.camera:camera-core:${version}"
-        val camera2 = "androidx.camera:camera-camera2:1.0.0-beta12"
+        val camera2 = "androidx.camera:camera-camera2:$version"
         val lifecycle = "androidx.camera:camera-lifecycle:${version}"
-        val view = "androidx.camera:camera-view:1.0.0-alpha19"
+        val view = "androidx.camera:camera-view:1.0.0-alpha23"
     }
 
     object Viewbinding {
-        private const val version = "1.4.4"
+        private const val version = "1.4.5"
         val delegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${version}"
     }
 

@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.ui.main
+package nl.dennisvanderzalm.parking.ui.parkingoverview
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons

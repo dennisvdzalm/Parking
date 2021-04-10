@@ -1,8 +1,8 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.4.31"
     id("com.android.library")
     id("com.squareup.sqldelight")
+    Serialization
 }
 
 group = "nl.dennisvanderzalm.parking"

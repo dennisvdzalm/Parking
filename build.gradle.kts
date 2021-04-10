@@ -7,8 +7,8 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31")
-        classpath("com.android.tools.build:gradle:7.0.0-alpha09")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ProjectConfig.kotlinVersion}")
+        classpath("com.android.tools.build:gradle:7.0.0-alpha14")
         classpath(Dependencies.SqlDelight.gradle_plugin)
     }
 }
@@ -17,13 +17,13 @@ group = "nl.dennisvanderzalm.parking"
 version = "1.0-SNAPSHOT"
 
 plugins {
-    id("com.github.ben-manes.versions") version("0.38.0")
+    BenManesVersions
 }
 
 allprojects {
     repositories {
-        mavenLocal()
         google()
+        mavenLocal()
         gradlePluginPortal()
         mavenCentral()
         maven("https://kotlin.bintray.com/kotlinx/")
