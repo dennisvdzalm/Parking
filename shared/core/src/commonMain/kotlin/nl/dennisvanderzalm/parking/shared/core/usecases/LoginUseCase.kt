@@ -2,6 +2,7 @@ package nl.dennisvanderzalm.parking.shared.core.usecases
 
 import nl.dennisvanderzalm.parking.shared.core.repositories.LoginRepository
 import nl.dennisvanderzalm.parking.shared.core.usecases.base.CompletableUseCase
+import nl.dennisvanderzalm.parking.shared.core.usecases.base.UseCase
 
 class LoginUseCase constructor(
     private val loginRepository: LoginRepository
@@ -11,5 +12,5 @@ class LoginUseCase constructor(
         loginRepository.login(requestValues.username, requestValues.password)
     }
 
-    data class RequestValues(val username: String, val password: String) : CompletableUseCase.RequestValues
+    data class RequestValues(val username: String, val password: String) : UseCase.RequestValues
 }

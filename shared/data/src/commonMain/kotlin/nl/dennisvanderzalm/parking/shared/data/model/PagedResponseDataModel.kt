@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.shared.data.models
+package nl.dennisvanderzalm.parking.shared.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

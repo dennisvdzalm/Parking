@@ -29,6 +29,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Dependencies.Androidx.Compose.version
     }
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 dependencies {
@@ -64,4 +68,8 @@ dependencies {
     //koin
     implementation(Dependencies.Koin.android)
     implementation(Dependencies.Koin.koin_compose)
+
+    implementation(Dependencies.Kotlinx.DateTime.datetime)
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }

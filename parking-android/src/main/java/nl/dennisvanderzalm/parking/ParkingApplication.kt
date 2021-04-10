@@ -5,6 +5,7 @@ import nl.dennisvanderzalm.parking.ui.login.LoginViewModel
 import nl.dennisvanderzalm.parking.shared.di.Koin
 import nl.dennisvanderzalm.parking.shared.core.models.Config
 import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
+import nl.dennisvanderzalm.parking.ui.parkingoverview.ParkingOverviewViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -24,6 +25,7 @@ class ParkingApplication : Application() {
             modules(
                 module {
                     viewModel { LoginViewModel(get()) }
+                    viewModel { ParkingOverviewViewModel(get()) }
                 }
             )
         }

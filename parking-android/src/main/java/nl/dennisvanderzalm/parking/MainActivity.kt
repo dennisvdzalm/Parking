@@ -4,7 +4,6 @@ package nl.dennisvanderzalm.parking
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.ExperimentalComposeUiApi
 import nl.dennisvanderzalm.parking.ui.ParkingApp
 import nl.dennisvanderzalm.parking.ui.theme.ParkingTheme
 
@@ -14,7 +13,6 @@ class MainActivity : AppCompatActivity() {
 
 //    private val binding: ActivityMainBinding by viewBinding(ActivityMainBinding::bind, R.id.container)
 
-    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

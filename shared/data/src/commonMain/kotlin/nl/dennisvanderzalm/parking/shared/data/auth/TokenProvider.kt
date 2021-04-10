@@ -1,5 +1,3 @@
 package nl.dennisvanderzalm.parking.shared.data.auth
 
-class TokenProvider {
-
-}
+class TokenProvider(private val tokenCache: TokenCache)

@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Test login call"
+        android:text="nl.dennisvdzalm.parking.shared.core.models.Test login call"
         app:layout_constraintBottom_toTopOf="@id/btn_start_capture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

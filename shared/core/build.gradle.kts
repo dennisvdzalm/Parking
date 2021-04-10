@@ -32,7 +32,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-
+                implementation(Dependencies.Kotlinx.DateTime.datetime)
             }
         }
 

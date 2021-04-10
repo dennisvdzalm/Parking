@@ -9,8 +9,8 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
-import nl.dennisvanderzalm.parking.shared.data.models.login.LoginRequestDataModel
-import nl.dennisvanderzalm.parking.shared.data.models.login.LoginResponseDataModel
+import nl.dennisvanderzalm.parking.shared.data.model.login.LoginRequestDataModel
+import nl.dennisvanderzalm.parking.shared.data.model.login.LoginResponseDataModel
 
 class LoginService(private val config: DataSourceConfig.Remote) {
 

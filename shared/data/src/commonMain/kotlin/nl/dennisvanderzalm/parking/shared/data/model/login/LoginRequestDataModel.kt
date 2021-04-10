@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.shared.data.models.login
+package nl.dennisvanderzalm.parking.shared.data.model.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -18,8 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".licenseplatescanner.NumberPlateCaptureActivity" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name="nl.dennisvanderzalm.parking.ui.licenseplatescanner.NumberPlateCaptureActivity" />
 
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
