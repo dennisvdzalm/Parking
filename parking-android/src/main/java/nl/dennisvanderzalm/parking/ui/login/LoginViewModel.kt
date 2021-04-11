@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import nl.dennisvanderzalm.parking.shared.core.usecases.GetStartupActionUseCase
 import nl.dennisvanderzalm.parking.shared.core.usecases.LoginUseCase
 import timber.log.Timber
 
-class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel(
+    private val loginUseCase: LoginUseCase
+) : ViewModel() {
 
     var state by mutableStateOf<LoginViewState>(LoginViewState.EnterCredentials)
         private set

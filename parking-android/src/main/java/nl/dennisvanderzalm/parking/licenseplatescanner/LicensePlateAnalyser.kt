@@ -5,15 +5,13 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import nl.dennisvanderzalm.parking.shared.core.models.isLicensePlate
+import nl.dennisvanderzalm.parking.shared.core.models.toLicensePlateNumber
 import timber.log.Timber
 
 class LicensePlateAnalyser(private val listener: LicencePlateResultListener? = null) : ImageAnalysis.Analyzer {
 
     private val listeners = mutableListOf<LicencePlateResultListener>().apply { listener?.let { add(it) } }
-
-
-    private val licensePlatePattern =
-        Regex("^([a-zA-Z]{2})([0-9]{2})([0-9]{2})|([0-9]{2})([0-9]{2})([a-zA-Z]{2})|([0-9]{2})([a-zA-Z]{2})([0-9]{2})|([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})([0-9]{2})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})|([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})([0-9]{2})|([0-9]{2})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})|([0-9]{2})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{3})([0-9]{1})|([0-9]{1})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{3})([0-9]{2})|([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})([0-9]{3})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{1})|([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{1})([0-9]{3})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{2})|([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{3})([0-9]{2})([bdfghjklmnprstvwxyzBDFGHJKLMNPRSTVWXYZ]{1})\$")
 
     override fun analyze(imageProxy: ImageProxy) {
         if (listeners.isEmpty()) return
@@ -43,10 +41,10 @@ class LicensePlateAnalyser(private val listener: LicencePlateResultListener? = n
                 val lineText = line.text
 
                 Timber.d("Text: $lineText")
-                if (licensePlatePattern.matches(lineText.replace("-", ""))) {
-                    listeners.forEach { it.onLicensePlateRecognized(lineText) }
+                if (lineText.isLicensePlate()) {
+                    listeners.forEach { it.onLicensePlateRecognized(lineText.toLicensePlateNumber().prettyNumber) }
                 } else {
-                    Timber.d("Processes image, no numberplate recognized")
+                    Timber.d("Processed image, no numberplate recognized")
                 }
             }
         }

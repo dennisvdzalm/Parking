@@ -6,17 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.*
 import nl.dennisvanderzalm.parking.shared.core.usecases.GetParkingHistoryUseCase
-import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
-import kotlin.time.toJavaDuration
 
 class ParkingOverviewViewModel(private val getParkingHistoryUseCase: GetParkingHistoryUseCase) : ViewModel() {
 

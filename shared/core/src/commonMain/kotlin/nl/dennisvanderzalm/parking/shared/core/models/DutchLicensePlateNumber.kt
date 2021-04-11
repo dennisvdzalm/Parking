@@ -24,7 +24,7 @@ class DutchLicensePlateNumber private constructor(val rawNumber: String, val pre
         fun tryParse(number: String): Boolean = try {
             parseLicense(number)
             true
-        } catch (e: IllegalStateException) {
+        } catch (e: IllegalArgumentException) {
             false
         }
 
@@ -33,19 +33,21 @@ class DutchLicensePlateNumber private constructor(val rawNumber: String, val pre
                 .replace("-", "")
                 .toUpperCase()
 
-            val pattern = checkNotNull(patterns.firstOrNull { it.matches(rawNumber) }) {
+            val pattern = requireNotNull(patterns.firstOrNull { it.matches(rawNumber) }) {
                 "Invalid license plate number $number"
             }
 
             val prettyNumber = rawNumber.replace(pattern) {
                 it.groupValues
-                    .subList(1, it.groupValues.size)
+                    .subList(1, it.groupValues.size) // sublist from index 1 as index 0 is always the complete match
                     .joinToString("-")
             }
 
             return DutchLicensePlateNumber(rawNumber, prettyNumber)
         }
     }
+
+    override fun hashCode(): Int = rawNumber.hashCode()
 }
 
 fun String.toLicensePlateNumber() = DutchLicensePlateNumber.parse(this)

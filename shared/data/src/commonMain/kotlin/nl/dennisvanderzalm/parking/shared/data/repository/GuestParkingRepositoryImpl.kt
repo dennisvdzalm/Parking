@@ -1,6 +1,6 @@
 package nl.dennisvanderzalm.parking.shared.data.repository
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.models.ParkingReservation
 import nl.dennisvanderzalm.parking.shared.core.models.isLicensePlate
@@ -16,8 +16,8 @@ class GuestParkingRepositoryImpl(
 ) : GuestParkingRepository {
 
     override suspend fun createParkingReservation(
-        from: LocalDateTime,
-        until: LocalDateTime,
+        from: Instant,
+        until: Instant,
         licensePlate: DutchLicensePlateNumber,
         name: String
     ) = dataSource.createParkingSessions(from, until, licensePlate, name)
@@ -25,19 +25,5 @@ class GuestParkingRepositoryImpl(
 
     override suspend fun endParkingReservation(reservationId: String) = dataSource.endParkingSessions(reservationId)
 
-    override suspend fun getParkingHistory(): List<ParkingReservation> {
-        val permits = storage.get<List<PermitsDataModel>>("permits")
-        return permits.firstOrNull()?.let { permit ->
-            permit.permitMedias.first().historyDataModel.reservations.items.map { reservationDataModel ->
-                ParkingReservation(
-                    reservationDataModel.reservationId,
-                    reservationDataModel.validFrom,
-                    reservationDataModel.validUntil,
-                    reservationDataModel.licensePlate.value.let { if (it.isLicensePlate()) it.toLicensePlateNumber() else null },
-                    reservationDataModel.units,
-                    reservationDataModel.permitMediaCode
-                )
-            }
-        } ?: emptyList()
-    }
+    override suspend fun getParkingHistory(): List<ParkingReservation> = dataSource.getParkingHistory()
 }

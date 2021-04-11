@@ -104,7 +104,7 @@ private fun CredentialsInput(onInputComplete: (username: String, password: Strin
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(onDone = {
-            keyboardController?.hideSoftwareKeyboard()
+            keyboardController?.hide()
             onInputComplete(username, password)
         }),
         onValueChange = { password = it },

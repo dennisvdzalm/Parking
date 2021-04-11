@@ -28,6 +28,12 @@ kotlin {
             }
         }
     }
+
+
+    repositories {
+        google()
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -56,12 +62,13 @@ kotlin {
                 implementation(Dependencies.Androidx.Material.androidx_material)
                 implementation(Dependencies.Ktor.client_android)
                 implementation(Dependencies.SqlDelight.android_driver)
+                implementation(Dependencies.Androidx.Security.crypto)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.12")
+                implementation(Dependencies.JUnit.testlib_junit)
             }
         }
         val iosMain by getting {

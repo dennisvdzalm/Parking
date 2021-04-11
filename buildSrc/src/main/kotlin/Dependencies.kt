@@ -51,6 +51,11 @@ object Dependencies {
             }
         }
 
+        object Security {
+            private const val version = "1.1.0-alpha03"
+            const val crypto = "androidx.security:security-crypto:$version"
+        }
+
         object Compose {
             const val version = "1.0.0-beta04"
             const val ui = "androidx.compose.ui:ui:$version"

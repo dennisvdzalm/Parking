@@ -11,12 +11,15 @@ import kotlinx.serialization.encoding.Encoder
 
 object InstantSerializer : KSerializer<Instant> {
 
+    private val timeZone = TimeZone.of("Europe/Amsterdam")
+
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Instant =
         decoder.decodeString()
             .toLocalDateTime()
-            .toInstant(TimeZone.of("Europe/Amsterdam"))
+            .toInstant(timeZone)
 
-    override fun serialize(encoder: Encoder, value: Instant) = encoder.encodeString(LocalDateTime.toString())
+    override fun serialize(encoder: Encoder, value: Instant) =
+        encoder.encodeString(value.toLocalDateTime(timeZone).toString())
 }

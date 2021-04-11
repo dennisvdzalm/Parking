@@ -1,5 +1,6 @@
 package nl.dennisvanderzalm.parking.shared.core.usecases
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.repositories.GuestParkingRepository
@@ -19,8 +20,8 @@ class CreateParkingReservationUseCase(private val guestParkingRepository: GuestP
     }
 
     data class RequestValues(
-        val from: LocalDateTime,
-        val until: LocalDateTime,
+        val from: Instant,
+        val until: Instant,
         val licensePlate: DutchLicensePlateNumber,
         val name: String
     ) : UseCase.RequestValues
