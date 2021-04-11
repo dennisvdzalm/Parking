@@ -11,5 +11,5 @@ class EndParkingReservationUseCase(private val guestParkingRepository: GuestPark
         guestParkingRepository.endParkingReservation(requestValues.reservationId)
 
 
-    data class RequestValues(val reservationId: String) : UseCase.RequestValues
+    data class RequestValues(val reservationId: Int) : UseCase.RequestValues
 }

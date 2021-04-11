@@ -17,7 +17,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.common.util.concurrent.ListenableFuture
 import nl.dennisvanderzalm.parking.R
 import nl.dennisvanderzalm.parking.databinding.ActivityNumberPlateCaptureBinding
-import nl.dennisvanderzalm.parking.licenseplatescanner.LicensePlateAnalyser
 import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

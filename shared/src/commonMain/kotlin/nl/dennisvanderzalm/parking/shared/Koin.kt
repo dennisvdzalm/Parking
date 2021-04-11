@@ -17,7 +17,7 @@ import nl.dennisvanderzalm.parking.shared.data.source.GuestParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.LoginDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.remote.RemoteGuestParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.remote.RemoteLoginDataSource
-import nl.dennisvanderzalm.parking.shared.data.storage.LocalStorage
+import nl.dennisvanderzalm.parking.shared.data.storage.MemoryStorage
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
@@ -49,8 +49,8 @@ fun initKoin(config: Config, appDeclaration: KoinAppDeclaration = {}) = startKoi
 fun initKoin(config: Config) = initKoin(config) {}
 
 private val repositoryModule = module {
-    single<LoginRepository> { LoginRepositoryImpl(get(), get(), get()) }
-    single<GuestParkingRepository> { GuestParkingRepositoryImpl(get(), get()) }
+    single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
+    single<GuestParkingRepository> { GuestParkingRepositoryImpl(get()) }
     single<SessionRepository> { AppSessionRepository(get()) }
 }
 
@@ -60,12 +60,12 @@ private val authModule = module {
 }
 
 private val storageModule = module {
-    single { LocalStorage() }
+    single { MemoryStorage() }
 }
 
 private val remoteDataSourceModule = module {
     single<LoginDataSource> { RemoteLoginDataSource(get()) }
-    single<GuestParkingDataSource> { RemoteGuestParkingDataSource(get(), get()) }
+    single<GuestParkingDataSource> { RemoteGuestParkingDataSource(get()) }
 }
 
 private fun httpClientModule(config: DataSourceConfig.Remote) = module {

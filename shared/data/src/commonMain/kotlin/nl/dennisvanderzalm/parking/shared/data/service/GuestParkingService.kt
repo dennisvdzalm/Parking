@@ -51,28 +51,24 @@ class GuestParkingService(
         dateFrom: Instant,
         dateUntil: Instant,
         licensePlateNumber: String,
-        name: String?,
-        permitMediaCode: String,
-        permitMediaTypeId: Int
-    ) = client.post<Unit>("/reservation/create") {
+        name: String?
+    ) = client.post<String>("/reservation/create") {
         body = CreateParkingReservationRequestDataModel(
             dateFrom,
             dateUntil,
             LicensePlateDataModel(licensePlateNumber, name),
-            permitMediaCode,
-            permitMediaTypeId
+            sessionManager.permitCode!!,
+            1
         )
     }
 
     suspend fun endParkingReservation(
-        reservationId: String,
-        permitMediaCode: String,
-        permitMediaTypeId: Int
-    ) = client.post<Unit>("/reservation/end") {
+        reservationId: Int
+    ) = client.post<String>("/reservation/end") {
         body = EndParkingReservationRequestDataModel(
             reservationId,
-            permitMediaCode,
-            permitMediaTypeId
+            sessionManager.permitCode!!,
+            1
         )
     }
 

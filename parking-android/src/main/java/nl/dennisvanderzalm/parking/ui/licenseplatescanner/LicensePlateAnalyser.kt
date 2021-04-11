@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.licenseplatescanner
+package nl.dennisvanderzalm.parking.ui.licenseplatescanner
 
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy

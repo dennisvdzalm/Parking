@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.ui.parkingoverview
+package nl.dennisvanderzalm.parking.ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -15,10 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LicensePlateComponent(
-    licensePlateVariant: LicensePlateVariant,
-    licencePlateNumber: String
-) {
+fun DutchLicensePlateComponent(licencePlateNumber: String) {
     Surface(
         modifier = Modifier
             .padding(16.dp)
@@ -65,12 +62,10 @@ private fun LicensePlatePreview() {
     Column(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        LicensePlateComponent(LicensePlateVariant.Nl, "SR-850-S")
-        LicensePlateComponent(LicensePlateVariant.Nl, "K-517-VR")
-        LicensePlateComponent(LicensePlateVariant.Nl, "14-SHR-1")
-        LicensePlateComponent(LicensePlateVariant.Nl, "62-FV-BB")
+        DutchLicensePlateComponent("SR-850-S")
+        DutchLicensePlateComponent("K-517-VR")
+        DutchLicensePlateComponent("14-SHR-1")
+        DutchLicensePlateComponent("62-FV-BB")
     }
 
 }
-
-enum class LicensePlateVariant { Nl }

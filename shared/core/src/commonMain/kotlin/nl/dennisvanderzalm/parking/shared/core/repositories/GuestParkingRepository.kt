@@ -14,7 +14,7 @@ interface GuestParkingRepository {
         name: String
     )
 
-    suspend fun endParkingReservation(reservationId: String)
+    suspend fun endParkingReservation(reservationId: Int)
 
     suspend fun getParkingHistory(): List<ParkingReservation>
 }

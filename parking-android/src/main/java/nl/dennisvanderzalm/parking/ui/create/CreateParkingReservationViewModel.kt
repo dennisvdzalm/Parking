@@ -25,6 +25,7 @@ class CreateParkingReservationViewModel(private val guestParkingRepository: Gues
     ) = viewModelScope.launch {
         flowOf<CreateParkingReservationViewState>(CreateParkingReservationViewState.Loading)
             .map {
+                CreateParkingReservationViewState.Loading
                 guestParkingRepository.createParkingReservation(from, until, licensePlateNumber, name)
                 CreateParkingReservationViewState.Created
             }

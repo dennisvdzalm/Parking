@@ -1,6 +1,6 @@
 package nl.dennisvanderzalm.parking.shared.data.storage
 
-class LocalStorage {
+class MemoryStorage {
 
     private val storage by lazy { mutableMapOf<String, Any>() }
 

@@ -13,7 +13,7 @@ interface GuestParkingDataSource {
         name: String
     )
 
-    suspend fun endParkingSessions(reservationId: String)
+    suspend fun endParkingSessions(reservationId: Int)
 
     suspend fun getParkingHistory(): List<ParkingReservation>
 }

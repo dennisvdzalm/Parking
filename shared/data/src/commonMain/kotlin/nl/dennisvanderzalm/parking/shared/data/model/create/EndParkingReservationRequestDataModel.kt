@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class EndParkingReservationRequestDataModel(
     @SerialName("ReservationID")
-    val reservationId: String,
+    val reservationId: Int,
     @SerialName("permitMediaCode")
     val permitMediaCode: String,
     @SerialName("permitMediaTypeId")
