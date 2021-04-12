@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.shared.core.models
+package nl.dennisvanderzalm.parking.shared.core.model
 
 class DutchLicensePlateNumber private constructor(val rawNumber: String, val prettyNumber: String) {
 

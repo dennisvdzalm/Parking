@@ -1,8 +1,8 @@
-package nl.dennisvanderzalm.parking.shared.core.models
+package nl.dennisvanderzalm.parking.shared.core.model
 
 import kotlinx.datetime.Instant
 
-data class ParkingReservation(
+data class ParkingHistoryItem(
     val reservationId: Int,
     val validFrom: Instant,
     val validUntil: Instant,

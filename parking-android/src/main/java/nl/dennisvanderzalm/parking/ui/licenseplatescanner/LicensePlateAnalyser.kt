@@ -5,8 +5,8 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
-import nl.dennisvanderzalm.parking.shared.core.models.isLicensePlate
-import nl.dennisvanderzalm.parking.shared.core.models.toLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.isLicensePlate
+import nl.dennisvanderzalm.parking.shared.core.model.toLicensePlateNumber
 import timber.log.Timber
 
 class LicensePlateAnalyser(private val listener: LicencePlateResultListener? = null) : ImageAnalysis.Analyzer {

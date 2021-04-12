@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.shared.core.models
+package nl.dennisvanderzalm.parking.shared.core.model
 
 enum class StartupAction {
     ShowLogin,

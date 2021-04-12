@@ -9,9 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.*
-import nl.dennisvanderzalm.parking.shared.core.models.ParkingReservation
-import nl.dennisvanderzalm.parking.shared.core.usecases.EndParkingReservationUseCase
-import nl.dennisvanderzalm.parking.shared.core.usecases.GetParkingHistoryUseCase
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
+import nl.dennisvanderzalm.parking.shared.core.usecase.EndParkingReservationUseCase
+import nl.dennisvanderzalm.parking.shared.core.usecase.GetParkingHistoryUseCase
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -40,39 +40,39 @@ class ParkingOverviewViewModel(
         getParkingHistory()
     }
 
-    private fun mapReservationItem(now: Instant, reservation: ParkingReservation): ParkingReservationUiModel {
-        return if (reservation.validUntil > now) {
-            mapActiveItem(now, reservation)
+    private fun mapReservationItem(now: Instant, historyItem: ParkingHistoryItem): ParkingReservationUiModel {
+        return if (historyItem.validUntil > now) {
+            mapActiveItem(now, historyItem)
         } else {
-            mapExpiredItem(reservation)
+            mapExpiredItem(historyItem)
         }
     }
 
 
-    private fun mapActiveItem(now: Instant, reservation: ParkingReservation): ParkingReservationUiModel.Active {
+    private fun mapActiveItem(now: Instant, historyItem: ParkingHistoryItem): ParkingReservationUiModel.Active {
         val timeLeft: String =
-            now.periodUntil(reservation.validUntil, TimeZone.currentSystemDefault())
+            now.periodUntil(historyItem.validUntil, TimeZone.currentSystemDefault())
                 .let { "${it.hours}h, ${it.minutes}m left" }
 
         return ParkingReservationUiModel.Active(
-            reservation.licensePlate?.prettyNumber.orEmpty(),
-            reservation.reservationId,
+            historyItem.licensePlate?.prettyNumber.orEmpty(),
+            historyItem.reservationId,
             timeLeft
         )
     }
 
-    private fun mapExpiredItem(reservation: ParkingReservation): ParkingReservationUiModel.Expired {
+    private fun mapExpiredItem(historyItem: ParkingHistoryItem): ParkingReservationUiModel.Expired {
         val from = dateFormatter.format(
-            reservation.validFrom.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+            historyItem.validFrom.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
         )
 
         val until = dateFormatter.format(
-            reservation.validUntil.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+            historyItem.validUntil.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
         )
 
         return ParkingReservationUiModel.Expired(
-            reservation.licensePlate?.prettyNumber,
-            reservation.reservationId,
+            historyItem.licensePlate?.prettyNumber,
+            historyItem.reservationId,
             "$from - $until"
         )
     }

@@ -1,8 +1,8 @@
-package nl.dennisvanderzalm.parking.shared.core.usecases
+package nl.dennisvanderzalm.parking.shared.core.usecase
 
-import nl.dennisvanderzalm.parking.shared.core.repositories.GuestParkingRepository
-import nl.dennisvanderzalm.parking.shared.core.usecases.base.CompletableUseCase
-import nl.dennisvanderzalm.parking.shared.core.usecases.base.UseCase
+import nl.dennisvanderzalm.parking.shared.core.repository.GuestParkingRepository
+import nl.dennisvanderzalm.parking.shared.core.usecase.base.CompletableUseCase
+import nl.dennisvanderzalm.parking.shared.core.usecase.base.UseCase
 
 class EndParkingReservationUseCase(private val guestParkingRepository: GuestParkingRepository) :
     CompletableUseCase<EndParkingReservationUseCase.RequestValues> {

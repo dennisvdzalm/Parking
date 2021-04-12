@@ -5,8 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import nl.dennisvanderzalm.parking.shared.core.usecases.GetStartupActionUseCase
-import nl.dennisvanderzalm.parking.shared.core.usecases.LoginUseCase
+import nl.dennisvanderzalm.parking.shared.core.usecase.LoginUseCase
 import timber.log.Timber
 
 class LoginViewModel(

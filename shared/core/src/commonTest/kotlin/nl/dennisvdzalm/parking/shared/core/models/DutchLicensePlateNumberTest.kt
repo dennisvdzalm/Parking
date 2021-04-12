@@ -1,6 +1,6 @@
 package nl.dennisvdzalm.parking.shared.core.models
 
-import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import kotlin.test.*
 
 class DutchLicensePlateNumberTest {

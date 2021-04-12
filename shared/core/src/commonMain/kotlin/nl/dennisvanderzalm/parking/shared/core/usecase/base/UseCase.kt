@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.shared.core.usecases.base
+package nl.dennisvanderzalm.parking.shared.core.usecase.base
 
 interface UseCase<RV : UseCase.RequestValues, T> {
 

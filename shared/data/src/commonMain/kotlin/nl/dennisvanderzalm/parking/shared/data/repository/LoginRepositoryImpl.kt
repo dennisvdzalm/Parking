@@ -1,9 +1,8 @@
 package nl.dennisvanderzalm.parking.shared.data.repository
 
-import nl.dennisvanderzalm.parking.shared.core.repositories.LoginRepository
+import nl.dennisvanderzalm.parking.shared.core.repository.LoginRepository
 import nl.dennisvanderzalm.parking.shared.data.session.SessionManager
 import nl.dennisvanderzalm.parking.shared.data.source.LoginDataSource
-import nl.dennisvanderzalm.parking.shared.data.storage.MemoryStorage
 
 class LoginRepositoryImpl(
     private val loginDataSource: LoginDataSource,

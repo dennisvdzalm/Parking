@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
-import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
-import nl.dennisvanderzalm.parking.shared.core.repositories.GuestParkingRepository
+import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.usecase.CreateParkingReservationUseCase
+import nl.dennisvanderzalm.parking.shared.core.usecase.ResolveParkingReservationUseCase
 
-class CreateParkingReservationViewModel(private val guestParkingRepository: GuestParkingRepository) : ViewModel() {
+class CreateParkingReservationViewModel(
+    private val createParkingReservationUseCase: CreateParkingReservationUseCase,
+    private val resolveParkingReservationUseCase: ResolveParkingReservationUseCase
+) : ViewModel() {
 
     private val _state = mutableStateOf<CreateParkingReservationViewState>(CreateParkingReservationViewState.Create)
     val state: State<CreateParkingReservationViewState> = _state
@@ -26,7 +29,11 @@ class CreateParkingReservationViewModel(private val guestParkingRepository: Gues
         flowOf<CreateParkingReservationViewState>(CreateParkingReservationViewState.Loading)
             .map {
                 CreateParkingReservationViewState.Loading
-                guestParkingRepository.createParkingReservation(from, until, licensePlateNumber, name)
+
+                resolveParkingReservationUseCase.get(
+                    ResolveParkingReservationUseCase.RequestValues(from, until, licensePlateNumber, name)
+                ).forEach { createParkingReservationUseCase.get(CreateParkingReservationUseCase.RequestValues(it)) }
+
                 CreateParkingReservationViewState.Created
             }
             .catch { CreateParkingReservationViewState.Error("Error creating parking reservation for ${licensePlateNumber.prettyNumber}") }

@@ -6,13 +6,13 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import nl.dennisvanderzalm.parking.shared.data.util.SecurePreferences
 
+private const val sharedPrefsFile: String = "PARKING_PREFS"
+
 class CryptoSecureStorage(applicationContext: Context) : SecurePreferences {
 
     private val mainKey = MasterKey.Builder(applicationContext)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         .build()
-
-    private val sharedPrefsFile: String = "PARKING_PREFS"
 
     private val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
         applicationContext,

@@ -1,8 +1,8 @@
 package nl.dennisvanderzalm.parking.shared.data.source
 
 import kotlinx.datetime.*
-import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
-import nl.dennisvanderzalm.parking.shared.core.models.ParkingReservation
+import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
 
 interface GuestParkingDataSource {
 
@@ -15,5 +15,5 @@ interface GuestParkingDataSource {
 
     suspend fun endParkingSessions(reservationId: Int)
 
-    suspend fun getParkingHistory(): List<ParkingReservation>
+    suspend fun getParkingHistory(): List<ParkingHistoryItem>
 }

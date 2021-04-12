@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import nl.dennisvanderzalm.parking.shared.core.models.StartupAction
-import nl.dennisvanderzalm.parking.shared.core.usecases.GetStartupActionUseCase
+import nl.dennisvanderzalm.parking.shared.core.model.StartupAction
+import nl.dennisvanderzalm.parking.shared.core.usecase.GetStartupActionUseCase
 
 class ParkingAppViewModel(private val startupActionUseCase: GetStartupActionUseCase) : ViewModel() {
 

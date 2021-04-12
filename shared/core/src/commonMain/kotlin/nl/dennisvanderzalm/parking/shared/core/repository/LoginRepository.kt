@@ -1,4 +1,4 @@
-package nl.dennisvanderzalm.parking.shared.core.repositories
+package nl.dennisvanderzalm.parking.shared.core.repository
 
 interface LoginRepository {
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BorderClear
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
@@ -19,19 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.isFocused
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
-import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
-import nl.dennisvanderzalm.parking.shared.core.models.isLicensePlate
-import nl.dennisvanderzalm.parking.shared.core.models.toLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.isLicensePlate
+import nl.dennisvanderzalm.parking.shared.core.model.toLicensePlateNumber
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.math.roundToInt
-import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 @Composable
@@ -145,10 +142,10 @@ fun ReservationDetailsInput(
 
 
         Slider(value = sliderPosition,
-            valueRange = 0f..900f,
+            valueRange = 0f..3200f,
             onValueChange = { sliderPosition = it })
 
-        Text(text = "${period.hours} hours ${period.minutes} minutes")
+        Text(text = "${period.days} days ${period.hours} hours ${period.minutes} minutes")
         Text(text = "Ends at $humanReadableEndDate")
 
         Button(

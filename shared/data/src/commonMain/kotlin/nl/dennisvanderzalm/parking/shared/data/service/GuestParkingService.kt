@@ -9,7 +9,7 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
-import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
+import nl.dennisvanderzalm.parking.shared.core.model.DataSourceConfig
 import nl.dennisvanderzalm.parking.shared.data.model.create.CreateParkingReservationRequestDataModel
 import nl.dennisvanderzalm.parking.shared.data.model.create.EndParkingReservationRequestDataModel
 import nl.dennisvanderzalm.parking.shared.data.model.login.LicensePlateDataModel

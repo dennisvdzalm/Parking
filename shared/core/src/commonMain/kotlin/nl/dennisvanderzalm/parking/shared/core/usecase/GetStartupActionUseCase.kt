@@ -1,8 +1,8 @@
-package nl.dennisvanderzalm.parking.shared.core.usecases
+package nl.dennisvanderzalm.parking.shared.core.usecase
 
-import nl.dennisvanderzalm.parking.shared.core.models.StartupAction
-import nl.dennisvanderzalm.parking.shared.core.repositories.SessionRepository
-import nl.dennisvanderzalm.parking.shared.core.usecases.base.UseCase
+import nl.dennisvanderzalm.parking.shared.core.model.StartupAction
+import nl.dennisvanderzalm.parking.shared.core.repository.SessionRepository
+import nl.dennisvanderzalm.parking.shared.core.usecase.base.UseCase
 
 class GetStartupActionUseCase(private val sessionRepository: SessionRepository) :
     UseCase<GetStartupActionUseCase.RequestValues, StartupAction> {

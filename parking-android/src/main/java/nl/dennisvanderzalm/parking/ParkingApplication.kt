@@ -1,8 +1,8 @@
 package nl.dennisvanderzalm.parking
 
 import android.app.Application
-import nl.dennisvanderzalm.parking.shared.core.models.Config
-import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
+import nl.dennisvanderzalm.parking.shared.core.model.Config
+import nl.dennisvanderzalm.parking.shared.core.model.DataSourceConfig
 import nl.dennisvanderzalm.parking.shared.initKoin
 import nl.dennisvanderzalm.parking.ui.ParkingAppViewModel
 import nl.dennisvanderzalm.parking.ui.create.CreateParkingReservationViewModel
@@ -28,7 +28,7 @@ class ParkingApplication : Application() {
                 module {
                     viewModel { LoginViewModel(get()) }
                     viewModel { ParkingOverviewViewModel(get(), get()) }
-                    viewModel { CreateParkingReservationViewModel(get()) }
+                    viewModel { CreateParkingReservationViewModel(get(), get()) }
                     viewModel { ParkingAppViewModel(get()) }
                 }
             )

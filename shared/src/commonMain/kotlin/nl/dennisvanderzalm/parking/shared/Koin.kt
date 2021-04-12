@@ -1,11 +1,11 @@
 package nl.dennisvanderzalm.parking.shared
 
-import nl.dennisvanderzalm.parking.shared.core.models.Config
-import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
-import nl.dennisvanderzalm.parking.shared.core.repositories.GuestParkingRepository
-import nl.dennisvanderzalm.parking.shared.core.repositories.LoginRepository
-import nl.dennisvanderzalm.parking.shared.core.repositories.SessionRepository
-import nl.dennisvanderzalm.parking.shared.core.usecases.*
+import nl.dennisvanderzalm.parking.shared.core.model.Config
+import nl.dennisvanderzalm.parking.shared.core.model.DataSourceConfig
+import nl.dennisvanderzalm.parking.shared.core.repository.GuestParkingRepository
+import nl.dennisvanderzalm.parking.shared.core.repository.LoginRepository
+import nl.dennisvanderzalm.parking.shared.core.repository.SessionRepository
+import nl.dennisvanderzalm.parking.shared.core.usecase.*
 import nl.dennisvanderzalm.parking.shared.data.auth.TokenProvider
 import nl.dennisvanderzalm.parking.shared.data.repository.AppSessionRepository
 import nl.dennisvanderzalm.parking.shared.data.repository.GuestParkingRepositoryImpl
@@ -15,6 +15,8 @@ import nl.dennisvanderzalm.parking.shared.data.service.LoginService
 import nl.dennisvanderzalm.parking.shared.data.session.SessionManager
 import nl.dennisvanderzalm.parking.shared.data.source.GuestParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.LoginDataSource
+import nl.dennisvanderzalm.parking.shared.data.source.PaidParkingDataSource
+import nl.dennisvanderzalm.parking.shared.data.source.local.LocalPaidParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.remote.RemoteGuestParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.remote.RemoteLoginDataSource
 import nl.dennisvanderzalm.parking.shared.data.storage.MemoryStorage
@@ -33,6 +35,7 @@ fun initKoin(config: Config, appDeclaration: KoinAppDeclaration = {}) = startKoi
     modules(useCaseModule)
     modules(storageModule)
     modules(authModule)
+    modules(localDataSourceModule)
 
     when (val dataSourceConfig = config.dataSourceConfig) {
         is DataSourceConfig.Remote -> {
@@ -50,7 +53,7 @@ fun initKoin(config: Config) = initKoin(config) {}
 
 private val repositoryModule = module {
     single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
-    single<GuestParkingRepository> { GuestParkingRepositoryImpl(get()) }
+    single<GuestParkingRepository> { GuestParkingRepositoryImpl(get(), get()) }
     single<SessionRepository> { AppSessionRepository(get()) }
 }
 
@@ -68,6 +71,10 @@ private val remoteDataSourceModule = module {
     single<GuestParkingDataSource> { RemoteGuestParkingDataSource(get()) }
 }
 
+private val localDataSourceModule = module {
+    single<PaidParkingDataSource> { LocalPaidParkingDataSource() }
+}
+
 private fun httpClientModule(config: DataSourceConfig.Remote) = module {
     single { LoginService(config) }
     single { GuestParkingService(config, get()) }
@@ -78,5 +85,6 @@ private val useCaseModule = module {
     single { GetParkingHistoryUseCase(get()) }
     single { CreateParkingReservationUseCase(get()) }
     single { EndParkingReservationUseCase(get()) }
+    single { ResolveParkingReservationUseCase(get()) }
     single { GetStartupActionUseCase(get()) }
 }

@@ -1,13 +1,12 @@
 package nl.dennisvanderzalm.parking.shared.data.source.remote
 
 import kotlinx.datetime.Instant
-import nl.dennisvanderzalm.parking.shared.core.models.DutchLicensePlateNumber
-import nl.dennisvanderzalm.parking.shared.core.models.ParkingReservation
-import nl.dennisvanderzalm.parking.shared.core.models.isLicensePlate
-import nl.dennisvanderzalm.parking.shared.core.models.toLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
+import nl.dennisvanderzalm.parking.shared.core.model.isLicensePlate
+import nl.dennisvanderzalm.parking.shared.core.model.toLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.data.service.GuestParkingService
 import nl.dennisvanderzalm.parking.shared.data.source.GuestParkingDataSource
-import nl.dennisvanderzalm.parking.shared.data.storage.MemoryStorage
 
 class RemoteGuestParkingDataSource(
     private val parkingService: GuestParkingService
@@ -26,8 +25,8 @@ class RemoteGuestParkingDataSource(
         parkingService.endParkingReservation(reservationId)
     }
 
-    override suspend fun getParkingHistory(): List<ParkingReservation> = parkingService.getParkingHistory().map {
-        ParkingReservation(
+    override suspend fun getParkingHistory(): List<ParkingHistoryItem> = parkingService.getParkingHistory().map {
+        ParkingHistoryItem(
             it.reservationId,
             it.validFrom,
             it.validUntil,

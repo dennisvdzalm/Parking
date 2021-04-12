@@ -8,7 +8,7 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.json.Json
-import nl.dennisvanderzalm.parking.shared.core.models.DataSourceConfig
+import nl.dennisvanderzalm.parking.shared.core.model.DataSourceConfig
 import nl.dennisvanderzalm.parking.shared.data.model.login.LoginRequestDataModel
 import nl.dennisvanderzalm.parking.shared.data.model.login.LoginResponseDataModel
 
