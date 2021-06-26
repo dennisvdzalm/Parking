@@ -1,3 +1,5 @@
+![Build](https://github.com/dennisvdzalm/Parking/actions/workflows/build-app-workflow.yml/badge.svg)
+
 # About
 Hobby project for trying out KMM and Jetpack Compose. It's a work in progress
 
