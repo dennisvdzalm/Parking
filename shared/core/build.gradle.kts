@@ -49,7 +49,7 @@ kotlin {
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.12")
+                implementation(Dependencies.JUnit.junit)
             }
         }
         val iosMain by getting {
@@ -63,10 +63,8 @@ android {
     compileSdkVersion(ProjectConfig.compileSdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(ProjectConfig.minSdk)
-        targetSdkVersion(ProjectConfig.targetSdk)
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = ProjectConfig.minSdk
+        targetSdk = ProjectConfig.targetSdk
     }
     buildTypes {
         getByName("release") {

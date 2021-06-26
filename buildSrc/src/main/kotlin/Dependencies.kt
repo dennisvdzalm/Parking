@@ -4,7 +4,7 @@ object Dependencies {
 
     object Androidx {
         object Core {
-            private const val version = "1.0.1"
+            private const val version = "1.5.0"
             val androidx_core = "androidx.core:core-ktx:${version}"
         }
 
@@ -14,22 +14,22 @@ object Dependencies {
         }
 
         object Material {
-            private const val version = "1.1.0-alpha04"
+            private const val version = "1.4.0-rc01"
             val androidx_material = "com.google.android.material:material:${version}"
         }
 
         object AppCompat {
-            private const val version = "1.3.0-beta01"
+            private const val version = "1.3.0"
             const val appcompat = "androidx.appcompat:appcompat:$version"
         }
 
         object Activity {
-            private const val version = "1.3.0-alpha06"
+            private const val version = "1.3.0-beta02"
             const val activity_compose = "androidx.activity:activity-compose:$version"
         }
 
         object Navigation {
-            private const val version = "1.0.0-alpha09"
+            private const val version = "2.4.0-alpha03"
             const val navigation_compose = "androidx.navigation:navigation-compose:$version"
         }
 
@@ -46,7 +46,7 @@ object Dependencies {
             val viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${version}"
 
             object Compose {
-                private const val version = "1.0.0-alpha04"
+                private const val version = "1.0.0-alpha07"
                 const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             }
         }
@@ -57,7 +57,7 @@ object Dependencies {
         }
 
         object Compose {
-            const val version = "1.0.0-beta04"
+            const val version = "1.0.0-beta09"
             const val ui = "androidx.compose.ui:ui:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -82,7 +82,7 @@ object Dependencies {
 
     object JUnit {
         private const val version = "4.13.2"
-        val testlib_junit = "junit:junit:${version}"
+        val junit = "junit:junit:${version}"
     }
 
     object GradleDependencies {
@@ -96,7 +96,7 @@ object Dependencies {
     }
 
     object Ktor {
-        private const val version = "1.5.3"
+        private const val version = "1.6.0"
         val client_android = "io.ktor:ktor-client-android:${version}"
         val client_ios = "io.ktor:ktor-client-ios:${version}"
         val client_core = "io.ktor:ktor-client-core:${version}"
@@ -118,13 +118,13 @@ object Dependencies {
         }
 
         object DateTime {
-            private const val version = "0.1.1"
+            private const val version = "0.2.1"
             val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${version}"
         }
     }
 
     object Koin {
-        private const val version = "3.0.1-beta-1"
+        private const val version = "3.1.1"
         val core = "io.insert-koin:koin-core:${version}"
         val android = "io.insert-koin:koin-android:${version}"
         val android_scope = "io.insert-koin:koin-android-scope:${version}"
@@ -133,17 +133,17 @@ object Dependencies {
     }
 
     object MlKit {
-        private const val version = "16.1.2"
+        private const val version = "16.2.0"
         val text_recognition = "com.google.android.gms:play-services-mlkit-text-recognition:${version}"
     }
 
 
     object Camerax {
-        private const val version = "1.1.0-alpha03"
+        private const val version = "1.1.0-alpha05"
         val core = "androidx.camera:camera-core:${version}"
         val camera2 = "androidx.camera:camera-camera2:$version"
         val lifecycle = "androidx.camera:camera-lifecycle:${version}"
-        val view = "androidx.camera:camera-view:1.0.0-alpha23"
+        val view = "androidx.camera:camera-view:1.0.0-alpha25"
     }
 
     object Viewbinding {
@@ -153,7 +153,7 @@ object Dependencies {
 
 
     object SqlDelight {
-        private const val version = "1.4.4"
+        private const val version = "1.5.0"
         val gradle_plugin = "com.squareup.sqldelight:gradle-plugin:${version}"
         val runtime = "com.squareup.sqldelight:runtime:${version}"
         val coroutinesExtensions = "com.squareup.sqldelight:coroutines-extensions:${version}"
