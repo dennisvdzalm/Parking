@@ -5,6 +5,7 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
 import nl.dennisvanderzalm.parking.shared.core.model.isLicensePlate
 import nl.dennisvanderzalm.parking.shared.core.model.toLicensePlateNumber
 import timber.log.Timber
@@ -13,6 +14,7 @@ class LicensePlateAnalyser(private val listener: LicencePlateResultListener? = n
 
     private val listeners = mutableListOf<LicencePlateResultListener>().apply { listener?.let { add(it) } }
 
+    @androidx.camera.core.ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         if (listeners.isEmpty()) return
 
