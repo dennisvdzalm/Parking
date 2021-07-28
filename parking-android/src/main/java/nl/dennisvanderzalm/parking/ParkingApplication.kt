@@ -28,7 +28,7 @@ class ParkingApplication : Application() {
                 module {
                     viewModel { LoginViewModel(get()) }
                     viewModel { ParkingOverviewViewModel(get(), get()) }
-                    viewModel { CreateParkingReservationViewModel(get(), get()) }
+                    viewModel { CreateParkingReservationViewModel(get(), get(), get()) }
                     viewModel { ParkingAppViewModel(get()) }
                 }
             )
