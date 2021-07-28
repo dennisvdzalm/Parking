@@ -7,11 +7,11 @@ group = "nl.dennisvanderzalm.parking"
 version = "1.0-SNAPSHOT"
 
 android {
-    compileSdkVersion(ProjectConfig.compileSdk)
+    compileSdk = ProjectConfig.compileSdk
     defaultConfig {
         applicationId = "nl.dennisvanderzalm.parking"
-        minSdkVersion(ProjectConfig.minSdk)
-        targetSdkVersion(ProjectConfig.targetSdk)
+        minSdk = ProjectConfig.minSdk
+        targetSdk = ProjectConfig.targetSdk
         versionCode = 1
         versionName = "1.0"
     }

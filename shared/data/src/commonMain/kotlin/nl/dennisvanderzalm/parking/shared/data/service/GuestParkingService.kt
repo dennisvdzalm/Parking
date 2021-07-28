@@ -79,4 +79,12 @@ class GuestParkingService(
             .permitMedias
             .first()
             .historyDataModel.reservations.items
+
+    suspend fun getAddressBook(): List<LicensePlateDataModel> =
+        client.post<LoginResponseDataModel>("/login/getbase")
+            .permits
+            .first()
+            .permitMedias
+            .first()
+            .licensePlates
 }

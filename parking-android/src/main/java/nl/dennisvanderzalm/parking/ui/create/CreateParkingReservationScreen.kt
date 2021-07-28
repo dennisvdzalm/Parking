@@ -1,9 +1,14 @@
 package nl.dennisvanderzalm.parking.ui.create
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -19,8 +24,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
+import nl.dennisvanderzalm.parking.shared.core.model.AddressBookItem
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.model.isLicensePlate
 import nl.dennisvanderzalm.parking.shared.core.model.toLicensePlateNumber
@@ -34,9 +42,7 @@ import kotlin.time.ExperimentalTime
 fun CreateParkingReservationScreen(onComplete: () -> Unit) {
     val viewModel: CreateParkingReservationViewModel = getViewModel()
 
-    val state: CreateParkingReservationViewState by viewModel.state
-
-    CreateParkingReservationContent(state, viewModel::create)
+    CreateParkingReservationContent(viewModel.state, viewModel::create, viewModel::queryAddressBook)
 }
 
 @Composable
@@ -47,7 +53,8 @@ fun CreateParkingReservationContent(
         until: Instant,
         licensePlate: DutchLicensePlateNumber,
         name: String
-    ) -> Unit
+    ) -> Unit,
+    queryAddressBook: (query: String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -58,7 +65,7 @@ fun CreateParkingReservationContent(
                 )
             }
         },
-        content = { ReservationDetails(state, onCreateParking) }
+        content = { ReservationDetails(state, onCreateParking, queryAddressBook) }
     )
 }
 
@@ -70,20 +77,30 @@ fun ReservationDetails(
         until: Instant,
         licensePlate: DutchLicensePlateNumber,
         name: String
-    ) -> Unit
+    ) -> Unit,
+    queryAddressBook: (query: String) -> Unit
 ) {
     when (state) {
         is CreateParkingReservationViewState.Created -> Text("Done")
-        is CreateParkingReservationViewState.Loading -> Text("Loading...")
-        is CreateParkingReservationViewState.Create -> ReservationDetailsInput(onCreateParking)
+        is CreateParkingReservationViewState.Loading -> CircularProgressIndicator()
+        is CreateParkingReservationViewState.Create -> ReservationDetailsInput(
+            state.suggestedAddressBookItems,
+            onCreateParking,
+            queryAddressBook
+        )
         is CreateParkingReservationViewState.Error -> Text("Error: ${state.message}")
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalTime::class)
+@OptIn(
+    ExperimentalComposeUiApi::class, ExperimentalTime::class,
+    androidx.compose.animation.ExperimentalAnimationApi::class
+)
 @Composable
 fun ReservationDetailsInput(
-    onCreateParking: (from: Instant, until: Instant, licensePlate: DutchLicensePlateNumber, name: String) -> Unit
+    suggestedAddressBookItems: List<AddressBookItem>,
+    onCreateParking: (from: Instant, until: Instant, licensePlate: DutchLicensePlateNumber, name: String) -> Unit,
+    queryAddressBook: (query: String) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -100,6 +117,8 @@ fun ReservationDetailsInput(
         dateFormatter.format(end.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime())
 
     val period = now.periodUntil(end, TimeZone.currentSystemDefault())
+
+    val showSuggestions = !licensePlate.isLicensePlate() && licensePlate.isNotEmpty() && suggestedAddressBookItems.isNotEmpty()
 
     Column(
         Modifier.padding(16.dp),
@@ -135,10 +154,42 @@ fun ReservationDetailsInput(
                 }
             },
             keyboardActions = KeyboardActions(onNext = { focusRequester.requestFocus() }),
-            onValueChange = { licensePlate = it.toUpperCase() },
+            onValueChange = {
+                licensePlate = it.uppercase()
+                queryAddressBook(it)
+            },
             label = { Text(text = "License plate") }
         )
 
+        AnimatedVisibility(visible = showSuggestions) {
+            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+                items(suggestedAddressBookItems) { item ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { licensePlate = item.licensePlateNumber.prettyNumber }) {
+                        Text(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .weight(1f),
+                            text = item.name,
+                            textAlign = TextAlign.Start,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .weight(1f),
+                            maxLines = 1,
+                            textAlign = TextAlign.End,
+                            text = item.licensePlateNumber.prettyNumber,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
 
         Slider(value = sliderPosition,
             valueRange = 0f..3200f,

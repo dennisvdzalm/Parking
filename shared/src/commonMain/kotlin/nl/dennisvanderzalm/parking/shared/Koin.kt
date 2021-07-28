@@ -2,11 +2,13 @@ package nl.dennisvanderzalm.parking.shared
 
 import nl.dennisvanderzalm.parking.shared.core.model.Config
 import nl.dennisvanderzalm.parking.shared.core.model.DataSourceConfig
+import nl.dennisvanderzalm.parking.shared.core.repository.AddressBookRepository
 import nl.dennisvanderzalm.parking.shared.core.repository.GuestParkingRepository
 import nl.dennisvanderzalm.parking.shared.core.repository.LoginRepository
 import nl.dennisvanderzalm.parking.shared.core.repository.SessionRepository
 import nl.dennisvanderzalm.parking.shared.core.usecase.*
 import nl.dennisvanderzalm.parking.shared.data.auth.TokenProvider
+import nl.dennisvanderzalm.parking.shared.data.repository.AppAddressBookRepository
 import nl.dennisvanderzalm.parking.shared.data.repository.AppSessionRepository
 import nl.dennisvanderzalm.parking.shared.data.repository.GuestParkingRepositoryImpl
 import nl.dennisvanderzalm.parking.shared.data.repository.LoginRepositoryImpl
@@ -55,6 +57,7 @@ private val repositoryModule = module {
     single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
     single<GuestParkingRepository> { GuestParkingRepositoryImpl(get(), get()) }
     single<SessionRepository> { AppSessionRepository(get()) }
+    single<AddressBookRepository> { AppAddressBookRepository(get()) }
 }
 
 private val authModule = module {
@@ -87,4 +90,5 @@ private val useCaseModule = module {
     single { EndParkingReservationUseCase(get()) }
     single { ResolveParkingReservationUseCase(get()) }
     single { GetStartupActionUseCase(get()) }
+    single { GetAddressBookUseCase(get()) }
 }

@@ -31,7 +31,7 @@ class DutchLicensePlateNumber private constructor(val rawNumber: String, val pre
         private fun parseLicense(number: String): DutchLicensePlateNumber {
             val rawNumber = number
                 .replace("-", "")
-                .toUpperCase()
+                .uppercase()
 
             val pattern = requireNotNull(patterns.firstOrNull { it.matches(rawNumber) }) {
                 "Invalid license plate number $number"
