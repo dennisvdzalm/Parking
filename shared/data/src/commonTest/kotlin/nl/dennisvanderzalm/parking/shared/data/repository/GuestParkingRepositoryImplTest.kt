@@ -20,6 +20,7 @@ class GuestParkingRepositoryImplTest {
         val end = LocalDateTime(2021, 1, 5, 2, 0).toInstant(timeZone)
 
         val reservations = repository.resolveParkingReservations(
+            true,
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
@@ -35,6 +36,7 @@ class GuestParkingRepositoryImplTest {
         val end = LocalDateTime(2021, 1, 5, 15, 0).toInstant(timeZone)
 
         val reservations = repository.resolveParkingReservations(
+            true,
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
@@ -53,6 +55,7 @@ class GuestParkingRepositoryImplTest {
             .toInstant(timeZone)
 
         val reservations = repository.resolveParkingReservations(
+            true,
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
@@ -72,6 +75,7 @@ class GuestParkingRepositoryImplTest {
             .plus(2, DateTimeUnit.DAY, timeZone)
 
         val reservations = repository.resolveParkingReservations(
+            true,
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
