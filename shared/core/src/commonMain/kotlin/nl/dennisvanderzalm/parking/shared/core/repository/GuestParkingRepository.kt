@@ -14,6 +14,7 @@ interface GuestParkingRepository {
     suspend fun getParkingHistory(): List<ParkingHistoryItem>
 
     fun resolveParkingReservations(
+        respectPaidParkingHours: Boolean,
         start: Instant,
         end: Instant,
         licensePlate: DutchLicensePlateNumber,

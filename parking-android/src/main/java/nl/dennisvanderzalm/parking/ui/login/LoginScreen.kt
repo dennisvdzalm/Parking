@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import nl.dennisvanderzalm.parking.ui.component.ParkingTopAppBar
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -29,14 +30,7 @@ fun LoginScreen(onLoginComplete: () -> Unit) {
     val state = viewModel.state
 
     Scaffold(
-        topBar = {
-            TopAppBar {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Parking"
-                )
-            }
-        },
+        topBar = { ParkingTopAppBar(title = "Login") },
         content = {
             LoginContent(
                 state = state,

@@ -11,6 +11,7 @@ class ResolveParkingReservationUseCase(private val parkingRepository: GuestParki
 
     override suspend fun get(requestValues: RequestValues): List<ParkingReservation> =
         parkingRepository.resolveParkingReservations(
+            requestValues.respectPaidParkingHours,
             requestValues.start,
             requestValues.end,
             requestValues.licensePlateNumber,
@@ -18,6 +19,7 @@ class ResolveParkingReservationUseCase(private val parkingRepository: GuestParki
         )
 
     data class RequestValues(
+        val respectPaidParkingHours: Boolean,
         val start: Instant,
         val end: Instant,
         val licensePlateNumber: DutchLicensePlateNumber,

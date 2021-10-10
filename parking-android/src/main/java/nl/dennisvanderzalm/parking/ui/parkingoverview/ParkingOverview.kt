@@ -18,12 +18,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nl.dennisvanderzalm.parking.ui.component.DutchLicensePlateComponent
+import nl.dennisvanderzalm.parking.ui.component.ParkingTopAppBar
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun ParkingOverviewScreen(
-    onCreateParking: () -> Unit,
-) {
+fun ParkingOverviewScreen(onCreateParking: () -> Unit) {
     val viewModel: ParkingOverviewViewModel = getViewModel()
     viewModel.getParkingHistory()
 
@@ -39,14 +38,7 @@ private fun ParkingOverviewContent(
     endReservation: (reservationId: Int) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Parking"
-                )
-            }
-        },
+        topBar = { ParkingTopAppBar(title = "Overview") },
         content = { ParkingHistory(state, endReservation, onCreateParking) },
         floatingActionButtonPosition = FabPosition.End,
         isFloatingActionButtonDocked = false
@@ -93,9 +85,7 @@ private fun CreateParkingSessionListItem(onCreateParking: () -> Unit) {
                 text = "Create a parking reservation",
                 style = MaterialTheme.typography.h5
             )
-            Button(onClick = onCreateParking) {
-                Text("Create")
-            }
+            OutlinedButton(onClick = onCreateParking) { Text("Create") }
         }
 
 

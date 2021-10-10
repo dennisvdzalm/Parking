@@ -312,4 +312,5 @@ hs_err_pid*
 
 *.hprof
 
-
+firebase-service-account.json
+*.jks

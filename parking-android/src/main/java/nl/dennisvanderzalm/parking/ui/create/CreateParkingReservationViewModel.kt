@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import nl.dennisvanderzalm.parking.shared.core.model.AddressBookItem
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingReservation
 import nl.dennisvanderzalm.parking.shared.core.usecase.CreateParkingReservationUseCase
 import nl.dennisvanderzalm.parking.shared.core.usecase.GetAddressBookUseCase
 import nl.dennisvanderzalm.parking.shared.core.usecase.ResolveParkingReservationUseCase
@@ -51,6 +52,7 @@ class CreateParkingReservationViewModel(
     fun queryAddressBook(query: String) = viewModelScope.launch { _query.emit(query) }
 
     fun create(
+        respectPaidParkingHours: Boolean,
         from: Instant,
         until: Instant,
         licensePlateNumber: DutchLicensePlateNumber,
@@ -60,9 +62,17 @@ class CreateParkingReservationViewModel(
             .map {
                 CreateParkingReservationViewState.Loading
 
-                resolveParkingReservationUseCase.get(
-                    ResolveParkingReservationUseCase.RequestValues(from, until, licensePlateNumber, name)
-                ).forEach { createParkingReservationUseCase.get(CreateParkingReservationUseCase.RequestValues(it)) }
+                val requestValues = ResolveParkingReservationUseCase.RequestValues(
+                    respectPaidParkingHours,
+                    from,
+                    until,
+                    licensePlateNumber,
+                    name
+                )
+
+                resolveParkingReservationUseCase.get(requestValues).forEach {
+                    createParkingReservationUseCase.get(CreateParkingReservationUseCase.RequestValues(it))
+                }
 
                 CreateParkingReservationViewState.Created
             }
@@ -74,8 +84,8 @@ class CreateParkingReservationViewModel(
 
 sealed class CreateParkingReservationViewState {
 
-    object Created : CreateParkingReservationViewState()
     object Loading : CreateParkingReservationViewState()
     data class Create(val suggestedAddressBookItems: List<AddressBookItem>) : CreateParkingReservationViewState()
     data class Error(val message: String) : CreateParkingReservationViewState()
+    object Created : CreateParkingReservationViewState()
 }
