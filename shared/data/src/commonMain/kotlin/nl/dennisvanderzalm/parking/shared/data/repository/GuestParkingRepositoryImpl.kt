@@ -31,11 +31,14 @@ class GuestParkingRepositoryImpl(
 
     @OptIn(ExperimentalTime::class)
     override fun resolveParkingReservations(
+        respectPaidParkingHours: Boolean,
         start: Instant,
         end: Instant,
         licensePlate: DutchLicensePlateNumber,
         name: String
     ): List<ParkingReservation> {
+        if (!respectPaidParkingHours) return listOf(ParkingReservation(start, end, licensePlate, name))
+
         val localStartDateTime = start.toLocalDateTime(timeZone)
         val localEndDateTime = end.toLocalDateTime(timeZone)
 
@@ -59,19 +62,34 @@ class GuestParkingRepositoryImpl(
             // Exactly within timeframe, one parking reservation necessary
             if (localStartDateTime > paidParkingStart && localEndDateTime < paidParkingEnd) {
                 reservationList.add(
-                    ParkingReservation(localStartDateTime.toInstant(), localEndDateTime.toInstant(), licensePlate, name)
+                    ParkingReservation(
+                        localStartDateTime.toInstant(),
+                        localEndDateTime.toInstant(),
+                        licensePlate,
+                        name
+                    )
                 )
             }
             // Starting time can be adjusted to match paid parking start time
             else if (localStartDateTime < paidParkingStart && localEndDateTime < paidParkingEnd) {
                 reservationList.add(
-                    ParkingReservation(paidParkingStart.toInstant(), localEndDateTime.toInstant(), licensePlate, name)
+                    ParkingReservation(
+                        paidParkingStart.toInstant(),
+                        localEndDateTime.toInstant(),
+                        licensePlate,
+                        name
+                    )
                 )
             }
             // End time can be adjusted to match paid parking end time
             else if (localStartDateTime > paidParkingStart && localEndDateTime > paidParkingEnd) {
                 reservationList.add(
-                    ParkingReservation(localStartDateTime.toInstant(), paidParkingEnd.toInstant(), licensePlate, name)
+                    ParkingReservation(
+                        localStartDateTime.toInstant(),
+                        paidParkingEnd.toInstant(),
+                        licensePlate,
+                        name
+                    )
                 )
             }
             // Both times reach outside of paid parking times, adjusting both to paid parking boundaries

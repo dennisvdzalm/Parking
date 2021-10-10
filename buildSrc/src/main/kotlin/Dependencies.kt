@@ -2,6 +2,13 @@
 
 object Dependencies {
 
+    object Firebase {
+
+        object AppDistribution {
+
+            val plugin = "com.google.firebase:firebase-appdistribution-gradle:2.2.0"
+        }
+    }
     object Androidx {
         object Core {
             private const val version = "1.5.0"
@@ -29,7 +36,7 @@ object Dependencies {
         }
 
         object Navigation {
-            private const val version = "2.4.0-alpha03"
+            private const val version = "2.4.0-alpha10"
             const val navigation_compose = "androidx.navigation:navigation-compose:$version"
         }
 
@@ -46,7 +53,7 @@ object Dependencies {
             val viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${version}"
 
             object Compose {
-                private const val version = "1.0.0-alpha07"
+                private const val version = "2.4.0-rc01"
                 const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             }
         }
@@ -57,7 +64,7 @@ object Dependencies {
         }
 
         object Compose {
-            const val version = "1.0.0-beta09"
+            const val version = "1.0.3"
             const val ui = "androidx.compose.ui:ui:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -65,7 +72,7 @@ object Dependencies {
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
             const val compiler = "androidx.compose.compiler:compiler:$version"
             const val runtime = "androidx.compose.runtime:runtime:$version"
-            const val material_icons = "androidx.compose.material:material-icons-extended:${version}"
+            const val material_icons = "androidx.compose.material:material-icons-extended:$version"
         }
 
         object Test {
@@ -78,6 +85,11 @@ object Dependencies {
                 val core = "androidx.test.espresso:espresso-core:${version}"
             }
         }
+    }
+
+    object Accompanist {
+        private const val version = "0.19.0"
+        const val navigation_animation = "com.google.accompanist:accompanist-navigation-animation:$version"
     }
 
     object JUnit {

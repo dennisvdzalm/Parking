@@ -55,6 +55,8 @@ dependencies {
     implementation(Dependencies.Androidx.Navigation.navigation_compose)
     implementation(Dependencies.Androidx.Lifecycle.Compose.viewModelCompose)
 
+    //accompanist dependencies
+    implementation(Dependencies.Accompanist.navigation_animation)
     implementation(Dependencies.MlKit.text_recognition)
     implementation(Dependencies.Camerax.core)
     implementation(Dependencies.Camerax.camera2)
