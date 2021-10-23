@@ -1,7 +1,6 @@
 package nl.dennisvanderzalm.parking.shared.data.util
 
 interface SecurePreferences {
-
     fun getString(key: String, default: String? = null): String?
     fun putString(key: String, value: String)
     fun getBoolean(key: String, default: Boolean): Boolean?
@@ -9,4 +8,8 @@ interface SecurePreferences {
     fun remove(key: String)
     fun contains(key: String): Boolean
     fun clear()
+
+    companion object {
+        const val PREF_NAME: String = "PARKING_PREFS"
+    }
 }

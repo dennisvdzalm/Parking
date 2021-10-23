@@ -1,20 +1,18 @@
 package nl.dennisvanderzalm.parking.shared.data.session
 
-import nl.dennisvanderzalm.parking.shared.data.util.Base64Encoder
+import nl.dennisvanderzalm.parking.shared.data.util.Base64
 import nl.dennisvanderzalm.parking.shared.data.util.SecurePreferences
+import nl.dennisvanderzalm.parking.shared.data.util.encodeToString
 
 private const val TOKEN = "ACCESS_TOKEN"
 private const val PERMIT_CODE = "PERMIT_CODE"
 
-class SessionManager(
-    private val securePreferences: SecurePreferences,
-    private val base64Encoder: Base64Encoder
-) {
+class SessionManager(private val securePreferences: SecurePreferences) {
 
     var token: String? = null
         get() = field ?: securePreferences.getString(TOKEN)?.also { field = it }
         set(value) {
-            if (value != null) securePreferences.putString(TOKEN, base64Encoder.encode(value))
+            if (value != null) securePreferences.putString(TOKEN, Base64.encodeToString(value))
             else securePreferences.remove(TOKEN)
         }
 

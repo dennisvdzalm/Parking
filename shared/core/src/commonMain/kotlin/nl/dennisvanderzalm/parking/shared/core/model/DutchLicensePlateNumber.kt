@@ -4,6 +4,9 @@ class DutchLicensePlateNumber private constructor(val rawNumber: String, val pre
 
     override fun toString(): String = prettyNumber
 
+    override fun equals(other: Any?): Boolean =
+        (other as? DutchLicensePlateNumber)?.let { it.rawNumber == rawNumber } ?: false
+
     companion object {
         private val patterns = listOf(
             Regex("^([A-Z]{2})([0-9]{2})([0-9]{2})$"),
