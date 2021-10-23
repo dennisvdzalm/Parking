@@ -9,6 +9,7 @@ object Dependencies {
             val plugin = "com.google.firebase:firebase-appdistribution-gradle:2.2.0"
         }
     }
+
     object Androidx {
         object Core {
             private const val version = "1.5.0"
@@ -163,7 +164,6 @@ object Dependencies {
         val delegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${version}"
     }
 
-
     object SqlDelight {
         private const val version = "1.5.0"
         val gradle_plugin = "com.squareup.sqldelight:gradle-plugin:${version}"
@@ -172,5 +172,11 @@ object Dependencies {
         val android_driver = "com.squareup.sqldelight:android-driver:${version}"
         val ios_driver = "com.squareup.sqldelight:native-driver:${version}"
     }
+
+    object MultiPlatformSettings {
+        private const val version = "0.8.1"
+        val settings = "com.russhwolf:multiplatform-settings:$version"
+    }
+
 }
 

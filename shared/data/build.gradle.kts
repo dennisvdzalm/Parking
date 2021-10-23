@@ -48,6 +48,7 @@ kotlin {
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.SqlDelight.runtime)
                 implementation(Dependencies.SqlDelight.coroutinesExtensions)
+                implementation(Dependencies.MultiPlatformSettings.settings)
             }
         }
 
@@ -82,7 +83,7 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(ProjectConfig.compileSdk)
+    compileSdk = ProjectConfig.compileSdk
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = ProjectConfig.minSdk

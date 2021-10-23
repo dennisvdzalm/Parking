@@ -61,7 +61,7 @@ private val repositoryModule = module {
 }
 
 private val authModule = module {
-    single { SessionManager(get(), get()) }
+    single { SessionManager(get()) }
     single { TokenProvider(get()) }
 }
 

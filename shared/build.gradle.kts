@@ -62,7 +62,7 @@ kotlin {
     }
 }
 android {
-    compileSdkVersion(ProjectConfig.compileSdk)
+    compileSdk = ProjectConfig.compileSdk
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = ProjectConfig.minSdk
