@@ -10,7 +10,7 @@ data class PermitMediaDataModel(
      @SerialName("ZoneCode") val zoneCode: String,
      @SerialName("UnitFormat") val unitFormat: Int,
      @SerialName("UnitPrice") val unitPrice: Double,
-     @SerialName("UpgradeUnits") val upgradeUnits: List<Int>,
+     @SerialName("UpgradeUnits") val upgradeUnits: List<Int?>,
      @SerialName("Balance") val balance: Int,
      @SerialName("StartTariff") val startTariff: Double,
      @SerialName("ActiveReservations") val activeReservations: List<ReservationItemDataModel>,
