@@ -63,10 +63,6 @@ private fun NavGraphBuilder.composable(
     deepLinks: List<NavDeepLink> = emptyList(),
     content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
 ) = composable(
-    enterTransition = { _, _ -> fadeIn(animationSpec = tween(700)) },
-    exitTransition = { _, _ -> fadeOut(animationSpec = tween(700)) },
-    popEnterTransition = { _, _ -> fadeIn(animationSpec = tween(700)) },
-    popExitTransition = { _, _ -> fadeOut(animationSpec = tween(700)) },
     route = screen.route,
     arguments = arguments,
     deepLinks = deepLinks,
