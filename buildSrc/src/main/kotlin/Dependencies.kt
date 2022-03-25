@@ -47,14 +47,14 @@ object Dependencies {
         }
 
         object Lifecycle {
-            private const val version = "2.3.1"
+            private const val version = "2.4.1"
             val extensions = "androidx.lifecycle:lifecycle-extensions:${version}"
             val compiler = "androidx.lifecycle:lifecycle-compiler:${version}"
             val testing = "androidx.arch.core:core-testing:${version}"
             val viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${version}"
 
             object Compose {
-                private const val version = "2.4.0-rc01"
+                private const val version = "2.5.0-alpha05"
                 const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             }
         }
@@ -65,7 +65,7 @@ object Dependencies {
         }
 
         object Compose {
-            const val version = "1.0.3"
+            const val version = "1.1.0"
             const val ui = "androidx.compose.ui:ui:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -89,7 +89,7 @@ object Dependencies {
     }
 
     object Accompanist {
-        private const val version = "0.19.0"
+        private const val version = "0.23.1"
         const val navigation_animation = "com.google.accompanist:accompanist-navigation-animation:$version"
     }
 
@@ -120,18 +120,18 @@ object Dependencies {
 
     object Kotlinx {
         object Serialization {
-            private const val version = "1.1.0"
+            private const val version = "1.3.2"
             val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:${version}"
         }
 
         object Coroutines {
-            private const val version = "1.4.3"
+            private const val version = "1.6.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${version}"
             val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${version}"
         }
 
         object DateTime {
-            private const val version = "0.2.1"
+            private const val version = "0.3.2"
             val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${version}"
         }
     }
