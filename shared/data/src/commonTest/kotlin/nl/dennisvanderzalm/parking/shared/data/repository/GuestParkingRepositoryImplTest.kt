@@ -3,6 +3,7 @@ package nl.dennisvanderzalm.parking.shared.data.repository
 import kotlinx.datetime.*
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
 import nl.dennisvanderzalm.parking.shared.data.source.GuestParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.local.LocalPaidParkingDataSource
 import kotlin.test.Test
@@ -24,7 +25,8 @@ class GuestParkingRepositoryImplTest {
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
-            "Dennis"
+            "Dennis",
+            ParkingZone.ZoneB1
         )
 
         assertTrue { reservations.isEmpty() }
@@ -40,7 +42,8 @@ class GuestParkingRepositoryImplTest {
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
-            "Dennis"
+            "Dennis",
+            ParkingZone.ZoneA
         )
 
         assertTrue { reservations.size == 1 }
@@ -59,7 +62,8 @@ class GuestParkingRepositoryImplTest {
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
-            "Dennis"
+            "Dennis",
+            ParkingZone.ZoneA
         )
 
         assertTrue { reservations.size == 2 }
@@ -79,7 +83,8 @@ class GuestParkingRepositoryImplTest {
             start,
             end,
             DutchLicensePlateNumber.parse("SR850S"),
-            "Dennis"
+            "Dennis",
+            ParkingZone.ZoneA
         )
 
         assertTrue { reservations.size == 3 }

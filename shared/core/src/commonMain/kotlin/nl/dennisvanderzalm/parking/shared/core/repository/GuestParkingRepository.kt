@@ -4,6 +4,7 @@ import kotlinx.datetime.Instant
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingReservation
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
 
 interface GuestParkingRepository {
 
@@ -18,6 +19,7 @@ interface GuestParkingRepository {
         start: Instant,
         end: Instant,
         licensePlate: DutchLicensePlateNumber,
-        name: String
+        name: String,
+        zone: ParkingZone
     ): List<ParkingReservation>
 }

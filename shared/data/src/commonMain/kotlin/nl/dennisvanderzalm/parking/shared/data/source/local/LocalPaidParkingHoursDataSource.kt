@@ -1,32 +1,45 @@
 package nl.dennisvanderzalm.parking.shared.data.source.local
 
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
 import nl.dennisvanderzalm.parking.shared.data.model.PaidParkingTimes
 import nl.dennisvanderzalm.parking.shared.data.source.PaidParkingDataSource
 
 class LocalPaidParkingDataSource : PaidParkingDataSource {
 
-    private val paidParkingTimes = mapOf(
-        DayOfWeek.MONDAY to Pair(9, 21),
-        DayOfWeek.TUESDAY to Pair(9, 21),
-        DayOfWeek.WEDNESDAY to Pair(9, 21),
-        DayOfWeek.THURSDAY to Pair(9, 21),
-        DayOfWeek.FRIDAY to Pair(9, 21),
-        DayOfWeek.SATURDAY to Pair(9, 21),
-        DayOfWeek.SUNDAY to Pair(13, 21)
-    )
+    override fun getPaidParkingHours(zone: ParkingZone, localDate: LocalDate): PaidParkingTimes? {
+        val paidParkingWindow = zone.paidParkingTimes[localDate.dayOfWeek] ?: return null
 
-    override fun getPaidParkingHours(localDate: LocalDate): PaidParkingTimes {
-        val start = requireNotNull(paidParkingTimes[localDate.dayOfWeek]?.let {
-            LocalDateTime(localDate.year, localDate.monthNumber, localDate.dayOfMonth, it.first, 0, 0, 0)
-        }) { "Paid parking start date unknown" }
+        val start = LocalDateTime(
+            year = localDate.year,
+            monthNumber = localDate.monthNumber,
+            dayOfMonth = localDate.dayOfMonth,
+            hour = paidParkingWindow.startHour,
+            minute = paidParkingWindow.startMinute,
+            second = 0,
+            nanosecond = 0
+        )
 
-        val end = requireNotNull(paidParkingTimes[localDate.dayOfWeek]?.let {
-            LocalDateTime(localDate.year, localDate.monthNumber, localDate.dayOfMonth, it.second, 0, 0, 0)
-        }) { "Paid parking end date unknown" }
+
+        val end = LocalDateTime(
+            year = localDate.year,
+            monthNumber = localDate.monthNumber,
+            dayOfMonth = localDate.dayOfMonth,
+            hour = paidParkingWindow.endHour,
+            minute = paidParkingWindow.endMinute,
+            second = 0,
+            nanosecond = 0
+        )
+
 
         return PaidParkingTimes(start, end)
     }
 }
+
+private data class PaidParkingWindow(
+    val startHour: Int,
+    val startMinute: Int,
+    val endHour: Int,
+    val endMinute: Int
+)
