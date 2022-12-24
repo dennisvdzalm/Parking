@@ -2,11 +2,14 @@ package nl.dennisvanderzalm.parking.ui.create
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -14,14 +17,12 @@ import kotlinx.datetime.*
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
 import nl.dennisvanderzalm.parking.ui.component.ParkingTopAppBar
-import nl.dennisvanderzalm.parking.ui.create.component.AddressBookInputField
+import nl.dennisvanderzalm.parking.ui.create.component.LicensePlateInputField
 import nl.dennisvanderzalm.parking.ui.create.component.DateLabel
 import nl.dennisvanderzalm.parking.ui.create.component.DurationLabel
 import nl.dennisvanderzalm.parking.ui.create.component.DurationSlider
 import nl.dennisvanderzalm.parking.ui.theme.ParkingTheme
 import org.koin.androidx.compose.koinViewModel
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -92,14 +93,17 @@ private fun ReservationDetails(
     var selectedParkingZone by rememberSaveable { mutableStateOf(ParkingZone.ZoneA) }
     var duration by remember { mutableStateOf(0.seconds) }
     var respectPaidParkingHours by rememberSaveable { mutableStateOf(true) }
+    val focusRequester = remember { FocusRequester() }
 
     Column(
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AddressBookInputField(
+        LicensePlateInputField(
+            modifier = Modifier.focusRequester(focusRequester),
             state = addressBookState,
             onUpdateSearchQuery = queryAddressBook,
+            keyboardActions = KeyboardActions(onNext = { focusRequester.requestFocus() }),
             onSelectLicensePlate = onSelectLicensePlate
         )
 
@@ -147,6 +151,7 @@ private fun ReservationDetails(
 
         Button(
             modifier = Modifier
+                .focusRequester(focusRequester)
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             shape = MaterialTheme.shapes.medium,

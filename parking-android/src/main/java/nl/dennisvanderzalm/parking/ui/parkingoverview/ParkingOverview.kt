@@ -1,6 +1,7 @@
 package nl.dennisvanderzalm.parking.ui.parkingoverview
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,7 +10,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.persistentListOf
 import nl.dennisvanderzalm.parking.ui.component.DutchLicensePlateComponent
 import nl.dennisvanderzalm.parking.ui.component.ParkingTopAppBar
 import org.koin.androidx.compose.getViewModel
@@ -24,43 +30,72 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun ParkingOverviewScreen(onCreateParking: () -> Unit) {
     val viewModel: ParkingOverviewViewModel = getViewModel()
-    viewModel.getParkingHistory()
+
+    LaunchedEffect(Unit) {
+        viewModel.getParkingHistory()
+    }
 
     val state: ParkingOverviewViewState by viewModel.state
 
-    ParkingOverviewContent(state, onCreateParking, viewModel::endReservation)
+    ParkingOverviewContent(
+        state = state,
+        onCreateParking = onCreateParking,
+        onRefresh = viewModel::getParkingHistory,
+        endReservation = viewModel::endReservation
+    )
 }
 
 @Composable
 private fun ParkingOverviewContent(
     state: ParkingOverviewViewState,
     onCreateParking: () -> Unit,
+    onRefresh: () -> Unit,
     endReservation: (reservationId: Int) -> Unit
 ) {
     Scaffold(
         topBar = { ParkingTopAppBar(title = "Overview") },
-        content = { ParkingHistory(state, endReservation, onCreateParking) },
-        floatingActionButtonPosition = FabPosition.End,
-        isFloatingActionButtonDocked = false
+        content = { paddingValues ->
+            ParkingHistory(
+                modifier = Modifier.padding(paddingValues),
+                state = state,
+                endReservation = endReservation,
+                onRefresh = onRefresh,
+                onCreateParking = onCreateParking,
+            )
+        }
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun ParkingHistory(
     state: ParkingOverviewViewState,
+    onRefresh: () -> Unit,
     endReservation: (reservationId: Int) -> Unit,
-    onCreateParking: () -> Unit
+    onCreateParking: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    LazyColumn(
-        state = listState,
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-    ) {
-        item { CreateParkingSessionListItem(onCreateParking) }
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = state.isLoading,
+        onRefresh = onRefresh
+    )
+    Box(modifier = modifier.pullRefresh(pullRefreshState)) {
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        ) {
+            item { CreateParkingSessionListItem(onCreateParking) }
 
-        items(state.history) { historyItem ->
-            ParkingHistoryItem(historyItem, endReservation)
+            items(state.history, key = { it.key }) { historyItem ->
+                ParkingHistoryItem(
+                    modifier = Modifier.animateItemPlacement(),
+                    item = historyItem,
+                    endReservation = endReservation
+                )
+            }
         }
+        PullRefreshIndicator(state.isLoading, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
@@ -95,10 +130,11 @@ private fun CreateParkingSessionListItem(onCreateParking: () -> Unit) {
 @Composable
 private fun ParkingHistoryItem(
     item: ParkingReservationUiModel,
-    endReservation: (reservationId: Int) -> Unit
+    endReservation: (reservationId: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(PaddingValues(top = 8.dp)),
         verticalAlignment = Alignment.CenterVertically,
@@ -151,7 +187,7 @@ private fun ParkingHistoryExpiredItem(item: ParkingReservationUiModel.Expired) {
 @Composable
 @Preview
 private fun ParkingOverviewPreview() {
-    val history = listOf(
+    val history = persistentListOf(
         ParkingReservationUiModel.Active(
             licensePlateNumber = "SR-850-S",
             reservationId = 1,
@@ -188,9 +224,11 @@ private fun ParkingOverviewPreview() {
             "22-3-2021 - 22-3-2021",
         )
     )
+
     ParkingOverviewContent(
-        state = ParkingOverviewViewState(history),
+        state = ParkingOverviewViewState(false, history),
         onCreateParking = {},
+        onRefresh = {},
         endReservation = {}
     )
 }

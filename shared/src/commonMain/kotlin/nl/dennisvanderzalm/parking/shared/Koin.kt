@@ -91,4 +91,5 @@ private val useCaseModule = module {
     single { ResolveParkingReservationUseCase(get()) }
     single { GetStartupActionUseCase(get()) }
     single { GetAddressBookUseCase(get()) }
+    single { RefreshTokenUseCase(get()) }
 }
