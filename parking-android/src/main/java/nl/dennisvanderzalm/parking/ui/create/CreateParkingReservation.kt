@@ -27,7 +27,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun CreateParkingReservationScreen(onBackPressed: () -> Unit) {
+fun CreateParkingReservation(onBackPressed: () -> Unit) {
     val viewModel: CreateParkingReservationViewModel = koinViewModel()
 
     LaunchedEffect(viewModel.navigateToOverview) {

@@ -2,9 +2,6 @@ package nl.dennisvanderzalm.parking.ui
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -12,10 +9,10 @@ import androidx.navigation.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import nl.dennisvanderzalm.parking.ui.create.CreateParkingReservationScreen
-import nl.dennisvanderzalm.parking.ui.login.LoginScreen
+import nl.dennisvanderzalm.parking.ui.create.CreateParkingReservation
+import nl.dennisvanderzalm.parking.ui.login.Login
 import nl.dennisvanderzalm.parking.ui.navigation.Screen
-import nl.dennisvanderzalm.parking.ui.parkingoverview.ParkingOverviewScreen
+import nl.dennisvanderzalm.parking.ui.parkingoverview.ParkingOverview
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -41,14 +38,14 @@ fun ParkingContent(startDest: Screen) {
     Surface(color = MaterialTheme.colors.background) {
         AnimatedNavHost(navController = navController, startDestination = startDest.route) {
             composable(Screen.Login) {
-                LoginScreen {
+                Login {
                     navController.navigate(Screen.ParkingOverview) {
                         popUpTo(Screen.Login) { inclusive = true }
                     }
                 }
             }
-            composable(Screen.ParkingOverview) { ParkingOverviewScreen { navController.navigate(Screen.CreateParking) } }
-            composable(Screen.CreateParking) { CreateParkingReservationScreen { navController.popBackStack(Screen.ParkingOverview.route, false) } }
+            composable(Screen.ParkingOverview) { ParkingOverview { navController.navigate(Screen.CreateParking) } }
+            composable(Screen.CreateParking) { CreateParkingReservation { navController.popBackStack(Screen.ParkingOverview.route, false) } }
         }
     }
 }
