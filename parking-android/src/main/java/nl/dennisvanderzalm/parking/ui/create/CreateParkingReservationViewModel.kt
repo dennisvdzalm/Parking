@@ -5,87 +5,145 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
+import kotlinx.datetime.Clock
+import nl.dennisvanderzalm.parking.ext.suspendRunCatching
 import nl.dennisvanderzalm.parking.shared.core.model.AddressBookItem
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
-import nl.dennisvanderzalm.parking.shared.core.model.ParkingReservation
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
+import nl.dennisvanderzalm.parking.shared.core.model.isLicensePlate
 import nl.dennisvanderzalm.parking.shared.core.usecase.CreateParkingReservationUseCase
 import nl.dennisvanderzalm.parking.shared.core.usecase.GetAddressBookUseCase
 import nl.dennisvanderzalm.parking.shared.core.usecase.ResolveParkingReservationUseCase
+import timber.log.Timber
+import kotlin.time.Duration
 
 class CreateParkingReservationViewModel(
     private val getAddressBookUseCase: GetAddressBookUseCase,
     private val createParkingReservationUseCase: CreateParkingReservationUseCase,
     private val resolveParkingReservationUseCase: ResolveParkingReservationUseCase
 ) : ViewModel() {
+    var addressBookState by mutableStateOf(AddressBookViewState())
+        private set
 
-    var state by mutableStateOf<CreateParkingReservationViewState>(CreateParkingReservationViewState.Loading)
+    var buttonState by mutableStateOf<CreateButtonState>(CreateButtonState())
+        private set
+
+    var navigateToOverview by mutableStateOf(false)
         private set
 
     private val _query = MutableStateFlow("")
+    private var _currentlySelectedLicensePlate = MutableStateFlow<DutchLicensePlateNumber?>(null)
+    private val _isLoading = MutableStateFlow(false)
 
     init {
-        val addressBookFlow = flow { emit(getAddressBookUseCase.get(GetAddressBookUseCase.RequestValues)) }
-            .flowOn(Dispatchers.IO)
+        produceAddressBookState()
+        produceButtonState()
+    }
 
+    private fun produceButtonState() {
         viewModelScope.launch {
-            combine(
-                addressBookFlow,
-                _query
-            ) { addressBook, query ->
-                if (query.isBlank()) {
-                    emptyList()
-                } else {
-                    addressBook.filter {
-                        it.name.contains(query, true)
-                                || it.licensePlateNumber.prettyNumber.contains(query, true)
-                                || it.licensePlateNumber.rawNumber.contains(query, true)
-                    }
-                }
-            }.collect { state = CreateParkingReservationViewState.Create(it) }
+            combine(_currentlySelectedLicensePlate, _isLoading) { selectedLicensePlate, isLoading ->
+                CreateButtonState(
+                    isEnabled = selectedLicensePlate != null,
+                    showLoadingIndicator = isLoading
+                )
+            }.collect { buttonState = it }
         }
     }
 
-    fun queryAddressBook(query: String) = viewModelScope.launch { _query.emit(query) }
+    private fun produceAddressBookState() {
+        val addressBookFlow = flow { emit(getAddressBookUseCase.get(GetAddressBookUseCase.RequestValues)) }
+        viewModelScope.launch {
+            combine(
+                addressBookFlow,
+                _query,
+                _currentlySelectedLicensePlate
+            ) { addressBook, query, currentlySelectedLicensePlate ->
+                val addressBookItems = if (query.isBlank()) {
+                    emptyList()
+                } else {
+                    addressBook.filter { item ->
+                        val nameContainsQuery = item.name.contains(query, true)
+                        val prettyNumberContainsQuery = item.licensePlateNumber.prettyNumber.contains(query, true)
+                        val rawNumberContainsQuery = item.licensePlateNumber.rawNumber.contains(query, true)
+                        return@filter nameContainsQuery || prettyNumberContainsQuery || rawNumberContainsQuery
+                    }
+                }
+
+                val showSuggestion = query.isNotEmpty() && !query.isLicensePlate()
+
+                AddressBookViewState(
+                    isLoading = false,
+                    showSuggestions = showSuggestion,
+                    searchSuggestions = addressBookItems.toPersistentList(),
+                    selectedEntry = currentlySelectedLicensePlate
+                )
+            }.collect { addressBookState = it }
+        }
+    }
+
+    fun queryAddressBook(query: String) {
+        viewModelScope.launch { _query.emit(query) }
+    }
+
+    fun onSelectLicensePlate(dutchLicensePlateNumber: DutchLicensePlateNumber?) {
+        _currentlySelectedLicensePlate.value = dutchLicensePlateNumber
+    }
 
     fun create(
         respectPaidParkingHours: Boolean,
-        from: Instant,
-        until: Instant,
-        licensePlateNumber: DutchLicensePlateNumber,
-        name: String
-    ) = viewModelScope.launch {
-        flowOf<CreateParkingReservationViewState>(CreateParkingReservationViewState.Loading)
-            .map {
-                CreateParkingReservationViewState.Loading
+        duration: Duration,
+        zone: ParkingZone
+    ) {
+        if (_isLoading.value) return
 
+        val now = Clock.System.now()
+        val end = now + duration
+
+        val selectedLicensePlate = requireNotNull(_currentlySelectedLicensePlate.value) {
+            "License plate not selected"
+        }
+
+        viewModelScope.launch {
+            _isLoading.emit(true)
+            suspendRunCatching {
                 val requestValues = ResolveParkingReservationUseCase.RequestValues(
-                    respectPaidParkingHours,
-                    from,
-                    until,
-                    licensePlateNumber,
-                    name
+                    respectPaidParkingHours = respectPaidParkingHours,
+                    start = now,
+                    end = end,
+                    licensePlateNumber = selectedLicensePlate,
+                    name = "",
+                    zone = zone
                 )
 
                 resolveParkingReservationUseCase.get(requestValues).forEach {
                     createParkingReservationUseCase.get(CreateParkingReservationUseCase.RequestValues(it))
                 }
-
-                CreateParkingReservationViewState.Created
+            }.onSuccess {
+                _isLoading.emit(false)
+                navigateToOverview = true
+            }.onFailure {
+                _isLoading.emit(false)
+                Timber.e(it, "Failed to create parking reservation")
             }
-            .catch { CreateParkingReservationViewState.Error("Error creating parking reservation for ${licensePlateNumber.prettyNumber}") }
-            .flowOn(Dispatchers.IO)
-            .collect { state = it }
+        }
     }
 }
 
-sealed class CreateParkingReservationViewState {
 
-    object Loading : CreateParkingReservationViewState()
-    data class Create(val suggestedAddressBookItems: List<AddressBookItem>) : CreateParkingReservationViewState()
-    data class Error(val message: String) : CreateParkingReservationViewState()
-    object Created : CreateParkingReservationViewState()
-}
+data class AddressBookViewState(
+    val isLoading: Boolean = true,
+    val showSuggestions: Boolean = false,
+    val searchSuggestions: ImmutableList<AddressBookItem> = persistentListOf(),
+    val selectedEntry: DutchLicensePlateNumber? = null
+)
+
+data class CreateButtonState(
+    val isEnabled: Boolean = false,
+    val showLoadingIndicator: Boolean = false
+)

@@ -7,21 +7,26 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 @Composable
 fun ParkingTopAppBar(
     title: String,
+    modifier: Modifier = Modifier,
     onBackPressed: (() -> Unit)? = null,
-) = TopAppBar(
-    title = { Text(title) },
-    navigationIcon = onBackPressed?.let {
-        {
-            IconButton(onClick = onBackPressed, enabled = true) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back"
-                )
+) {
+    TopAppBar(
+        modifier = modifier,
+        title = { Text(title) },
+        navigationIcon = onBackPressed?.let {
+            {
+                IconButton(onClick = onBackPressed, enabled = true) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
             }
         }
-    }
-)
+    )
+}

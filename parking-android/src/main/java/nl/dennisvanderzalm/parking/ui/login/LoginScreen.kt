@@ -22,18 +22,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import nl.dennisvanderzalm.parking.ui.component.ParkingTopAppBar
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(onLoginComplete: () -> Unit) {
-    val viewModel: LoginViewModel = getViewModel()
-
-    val state = viewModel.state
+    val viewModel: LoginViewModel = koinViewModel()
 
     Scaffold(
         topBar = { ParkingTopAppBar(title = "Login") },
-        content = {
+        content = { paddingValues ->
             LoginContent(
-                state = state,
+                modifier = Modifier.padding(paddingValues),
+                state = viewModel.state,
                 onLoginComplete = onLoginComplete,
                 onInputComplete = viewModel::login
             )
@@ -42,13 +42,14 @@ fun LoginScreen(onLoginComplete: () -> Unit) {
 }
 
 @Composable
-fun LoginContent(
+private fun LoginContent(
+    modifier: Modifier = Modifier,
     state: LoginViewState,
     onLoginComplete: () -> Unit,
     onInputComplete: (username: String, password: String) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

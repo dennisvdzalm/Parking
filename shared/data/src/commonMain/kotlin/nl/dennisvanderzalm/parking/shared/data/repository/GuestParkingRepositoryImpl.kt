@@ -4,10 +4,10 @@ import kotlinx.datetime.*
 import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingReservation
+import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
 import nl.dennisvanderzalm.parking.shared.core.repository.GuestParkingRepository
 import nl.dennisvanderzalm.parking.shared.data.source.GuestParkingDataSource
 import nl.dennisvanderzalm.parking.shared.data.source.PaidParkingDataSource
-import kotlin.time.ExperimentalTime
 
 class GuestParkingRepositoryImpl(
     private val parkingDataSource: GuestParkingDataSource,
@@ -29,13 +29,13 @@ class GuestParkingRepositoryImpl(
 
     override suspend fun getParkingHistory(): List<ParkingHistoryItem> = parkingDataSource.getParkingHistory()
 
-    @OptIn(ExperimentalTime::class)
     override fun resolveParkingReservations(
         respectPaidParkingHours: Boolean,
         start: Instant,
         end: Instant,
         licensePlate: DutchLicensePlateNumber,
-        name: String
+        name: String,
+        zone: ParkingZone
     ): List<ParkingReservation> {
         if (!respectPaidParkingHours) return listOf(ParkingReservation(start, end, licensePlate, name))
 
@@ -50,7 +50,7 @@ class GuestParkingRepositoryImpl(
 
         for (i in 0..daysFromStart) {
             val day = localStartDate.plus(i, DateTimeUnit.DAY)
-            val paidParkingTimeframe = paidParkingDataSource.getPaidParkingHours(day)
+            val paidParkingTimeframe = paidParkingDataSource.getPaidParkingHours(zone, day) ?: continue
             val paidParkingStart = paidParkingTimeframe.start
             val paidParkingEnd = paidParkingTimeframe.end
 
