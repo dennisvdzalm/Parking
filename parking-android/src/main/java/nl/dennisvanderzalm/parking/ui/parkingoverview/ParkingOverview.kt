@@ -28,7 +28,7 @@ import nl.dennisvanderzalm.parking.ui.component.ParkingTopAppBar
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun ParkingOverviewScreen(onCreateParking: () -> Unit) {
+fun ParkingOverview(onCreateParking: () -> Unit) {
     val viewModel: ParkingOverviewViewModel = getViewModel()
 
     LaunchedEffect(Unit) {
