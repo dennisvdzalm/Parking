@@ -64,16 +64,15 @@ private fun CreateParkingReservationContent(
                 onBackPressed = onBackPressed
             )
         },
-        content = {
-            Box(Modifier.padding(it)) {
-                ReservationDetails(
-                    addressBookState = addressBookState,
-                    createButtonState = createButtonState,
-                    onSelectLicensePlate = onSelectLicensePlate,
-                    onCreateParking = onCreateParking,
-                    queryAddressBook = queryAddressBook,
-                )
-            }
+        content = { paddingValues ->
+            ReservationDetails(
+                modifier = Modifier.padding(paddingValues),
+                addressBookState = addressBookState,
+                createButtonState = createButtonState,
+                onSelectLicensePlate = onSelectLicensePlate,
+                onCreateParking = onCreateParking,
+                queryAddressBook = queryAddressBook,
+            )
         }
     )
 }
@@ -89,6 +88,7 @@ private fun ReservationDetails(
         zone: ParkingZone
     ) -> Unit,
     queryAddressBook: (query: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var selectedParkingZone by rememberSaveable { mutableStateOf(ParkingZone.ZoneA) }
     var duration by remember { mutableStateOf(0.seconds) }
@@ -96,7 +96,7 @@ private fun ReservationDetails(
     val focusRequester = remember { FocusRequester() }
 
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LicensePlateInputField(
