@@ -94,7 +94,7 @@ object Dependencies {
     }
 
     object Accompanist {
-        private const val version = "0.23.1"
+        private const val version = "0.28.0"
         const val navigation_animation = "com.google.accompanist:accompanist-navigation-animation:$version"
     }
 
