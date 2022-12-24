@@ -54,7 +54,7 @@ object Dependencies {
             val viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${version}"
 
             object Compose {
-                private const val version = "2.5.0-alpha05"
+                private const val version = "2.5.1"
                 const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             }
         }
@@ -65,15 +65,14 @@ object Dependencies {
         }
 
         object Compose {
-            const val version = "1.1.0"
-            const val ui = "androidx.compose.ui:ui:$version"
-            const val tooling = "androidx.compose.ui:ui-tooling:$version"
-            const val foundation = "androidx.compose.foundation:foundation:$version"
-            const val material = "androidx.compose.material:material:$version"
-            const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
-            const val compiler = "androidx.compose.compiler:compiler:$version"
-            const val runtime = "androidx.compose.runtime:runtime:$version"
-            const val material_icons = "androidx.compose.material:material-icons-extended:$version"
+            const val bom = "androidx.compose:compose-bom:2022.12.00"
+            const val ui = "androidx.compose.ui:ui"
+            const val uiTooling = "androidx.compose.ui:ui-tooling"
+            const val preview = "androidx.compose.ui:ui-tooling-preview"
+            const val foundation = "androidx.compose.foundation:foundation"
+            const val material = "androidx.compose.material:material"
+            const val uiTest = "androidx.compose.ui:ui-test-junit4"
+            const val material_icons = "androidx.compose.material:material-icons-extended"
         }
 
         object Test {
@@ -121,7 +120,11 @@ object Dependencies {
     object Kotlinx {
         object Serialization {
             private const val version = "1.3.2"
-            val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:${version}"
+            const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:${version}"
+        }
+
+        object Collections {
+            const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
         }
 
         object Coroutines {
@@ -137,12 +140,13 @@ object Dependencies {
     }
 
     object Koin {
-        private const val version = "3.1.1"
-        val core = "io.insert-koin:koin-core:${version}"
-        val android = "io.insert-koin:koin-android:${version}"
-        val android_scope = "io.insert-koin:koin-android-scope:${version}"
-        val android_viewmodel = "io.insert-koin:koin-androidx-viewmodel:${version}"
-        val koin_compose = "io.insert-koin:koin-androidx-compose:${version}"
+        private const val composeVersion = "3.4.0"
+        private const val coreVersion = "3.3.0"
+        private const val androidVersion = "3.3.1"
+        val core = "io.insert-koin:koin-core:$coreVersion"
+        val android = "io.insert-koin:koin-android:$androidVersion"
+        val workmanager = "io.insert-koin:koin-androidx-workmanager:$androidVersion"
+        val compose = "io.insert-koin:koin-androidx-compose:$composeVersion"
     }
 
     object MlKit {

@@ -94,6 +94,7 @@ android {
             isMinifyEnabled = false
         }
     }
+    namespace = "nl.dennisvanderzalm.parking.shared.data"
 }
 
 sqldelight {
