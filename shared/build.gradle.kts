@@ -73,6 +73,7 @@ android {
             isMinifyEnabled = false
         }
     }
+    namespace = "nl.dennisvanderzalm.parking.shared"
 }
 val packForXcode by tasks.creating(Sync::class) {
     group = "build"

@@ -27,12 +27,14 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Androidx.Compose.version
+        kotlinCompilerExtensionVersion = "1.3.2"
     }
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
+
+    namespace = "nl.dennisvanderzalm.parking"
 }
 
 dependencies {
@@ -44,10 +46,10 @@ dependencies {
     implementation(Dependencies.Androidx.AppCompat.appcompat)
 
     //Compose dependencies
+    implementation(platform(Dependencies.Androidx.Compose.bom))
     implementation(Dependencies.Androidx.Compose.ui)
-    implementation(Dependencies.Androidx.Compose.tooling)
-    implementation(Dependencies.Androidx.Compose.compiler)
-    implementation(Dependencies.Androidx.Compose.runtime)
+    debugImplementation(Dependencies.Androidx.Compose.uiTooling)
+    implementation(Dependencies.Androidx.Compose.preview)
     implementation(Dependencies.Androidx.Compose.foundation)
     implementation(Dependencies.Androidx.Compose.material)
     implementation(Dependencies.Androidx.Compose.material_icons)
@@ -69,9 +71,11 @@ dependencies {
 
     //koin
     implementation(Dependencies.Koin.android)
-    implementation(Dependencies.Koin.koin_compose)
+    implementation(Dependencies.Koin.workmanager)
+    implementation(Dependencies.Koin.compose)
 
     implementation(Dependencies.Kotlinx.DateTime.datetime)
+    implementation(Dependencies.Kotlinx.Collections.immutable)
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
