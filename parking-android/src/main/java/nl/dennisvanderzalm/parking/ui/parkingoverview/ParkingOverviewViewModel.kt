@@ -5,10 +5,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.*
+import nl.dennisvanderzalm.parking.ext.suspendRunCatching
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingHistoryItem
 import nl.dennisvanderzalm.parking.shared.core.usecase.EndParkingReservationUseCase
 import nl.dennisvanderzalm.parking.shared.core.usecase.GetParkingHistoryUseCase
@@ -20,24 +22,31 @@ class ParkingOverviewViewModel(
     private val endParkingReservationUseCase: EndParkingReservationUseCase
 ) : ViewModel() {
 
-    private val _state: MutableState<ParkingOverviewViewState> = mutableStateOf(ParkingOverviewViewState(emptyList()))
+    private val _state: MutableState<ParkingOverviewViewState> =
+        mutableStateOf(ParkingOverviewViewState(true, persistentListOf()))
     val state: State<ParkingOverviewViewState> = _state
 
     private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
 
-    fun getParkingHistory() = viewModelScope.launch {
-        val now = Clock.System.now()
 
-        _state.value = withContext(Dispatchers.IO) {
+    fun getParkingHistory() = viewModelScope.launch {
+        _state.value = state.value.copy(isLoading = true)
+        suspendRunCatching {
+            val now = Clock.System.now()
             getParkingHistoryUseCase.get(GetParkingHistoryUseCase.RequestValues)
                 .map { mapReservationItem(now, it) }
-                .let { ParkingOverviewViewState(it) }
+        }.onSuccess {
+            _state.value = ParkingOverviewViewState(false, it.toPersistentList())
+        }.onFailure {
+            _state.value = state.value.copy(isLoading = false)
         }
     }
 
-    fun endReservation(reservationId: Int) = viewModelScope.launch {
-        endParkingReservationUseCase.get(EndParkingReservationUseCase.RequestValues(reservationId))
-        getParkingHistory()
+    fun endReservation(reservationId: Int) {
+        viewModelScope.launch {
+            endParkingReservationUseCase.get(EndParkingReservationUseCase.RequestValues(reservationId))
+            getParkingHistory()
+        }
     }
 
     private fun mapReservationItem(now: Instant, historyItem: ParkingHistoryItem): ParkingReservationUiModel {
@@ -78,5 +87,5 @@ class ParkingOverviewViewModel(
     }
 }
 
-data class ParkingOverviewViewState(val history: List<ParkingReservationUiModel>)
+data class ParkingOverviewViewState(val isLoading: Boolean, val history: ImmutableList<ParkingReservationUiModel>)
 

@@ -26,6 +26,12 @@ object Dependencies {
             val androidx_material = "com.google.android.material:material:${version}"
         }
 
+        object Work {
+            private const val work_version = "2.7.1"
+
+            val runtime = "androidx.work:work-runtime-ktx:$work_version"
+        }
+
         object AppCompat {
             private const val version = "1.3.0"
             const val appcompat = "androidx.appcompat:appcompat:$version"

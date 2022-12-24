@@ -37,6 +37,16 @@ android {
     namespace = "nl.dennisvanderzalm.parking"
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = ProjectConfig.javaVersion.toString()
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${buildDir}/composeReports"
+        )
+    }
+}
+
 dependencies {
     implementation(project(":shared"))
     implementation(Dependencies.Androidx.Core.androidx_core)
@@ -44,6 +54,7 @@ dependencies {
     implementation(Dependencies.Androidx.ConstraintLayout.androidx_constraintlayout)
     implementation(Dependencies.Androidx.Lifecycle.viewmodel_ktx)
     implementation(Dependencies.Androidx.AppCompat.appcompat)
+    implementation(Dependencies.Androidx.Work.runtime)
 
     //Compose dependencies
     implementation(platform(Dependencies.Androidx.Compose.bom))

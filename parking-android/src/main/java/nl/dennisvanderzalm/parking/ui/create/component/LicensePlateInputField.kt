@@ -27,8 +27,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -42,25 +44,30 @@ import nl.dennisvanderzalm.parking.ui.create.AddressBookViewState
 import nl.dennisvanderzalm.parking.ui.theme.ParkingTheme
 
 @Composable
-fun AddressBookInputField(
+fun LicensePlateInputField(
     state: AddressBookViewState,
     onUpdateSearchQuery: (String) -> Unit,
-    onSelectLicensePlate: (DutchLicensePlateNumber?) -> Unit
+    onSelectLicensePlate: (DutchLicensePlateNumber?) -> Unit,
+    modifier: Modifier = Modifier,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
-    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     var licensePlateText by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(licensePlateText) { onUpdateSearchQuery(licensePlateText) }
+    LaunchedEffect(licensePlateText) {
+        onUpdateSearchQuery(licensePlateText)
+
+        if (licensePlateText.isLicensePlate()) {
+            val plate = licensePlateText.toLicensePlateNumber()
+            licensePlateText = plate.prettyNumber.uppercase()
+            onSelectLicensePlate(licensePlateText.toLicensePlateNumber())
+            focusManager.clearFocus()
+        }
+    }
 
     OutlinedTextField(
-        modifier = Modifier
-            .onFocusChanged {
-                if (!it.isFocused && licensePlateText.isLicensePlate()) {
-                    onSelectLicensePlate(licensePlateText.toLicensePlateNumber())
-                }
-            }
-            .padding(16.dp),
-        value = licensePlateText,
+        modifier = modifier.padding(16.dp),
+        value = licensePlateText.uppercase(),
         maxLines = 1,
         keyboardOptions = KeyboardOptions(
             autoCorrect = false,
@@ -89,8 +96,8 @@ fun AddressBookInputField(
                 )
             }
         },
-        keyboardActions = KeyboardActions(onNext = { focusRequester.requestFocus() }),
         onValueChange = { licensePlateText = it },
+        keyboardActions = keyboardActions,
         label = { Text(text = "License plate") }
     )
 
@@ -100,10 +107,7 @@ fun AddressBookInputField(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            licensePlateText = item.licensePlateNumber.prettyNumber
-                            onSelectLicensePlate(item.licensePlateNumber)
-                        }
+                        .clickable { licensePlateText = item.licensePlateNumber.prettyNumber }
                 ) {
                     Text(
                         modifier = Modifier
@@ -133,7 +137,7 @@ fun AddressBookInputField(
 @Composable
 private fun Preview() {
     ParkingTheme {
-        AddressBookInputField(
+        LicensePlateInputField(
             state = AddressBookViewState(),
             onUpdateSearchQuery = {},
             onSelectLicensePlate = {})
