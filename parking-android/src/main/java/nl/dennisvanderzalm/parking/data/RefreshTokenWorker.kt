@@ -5,6 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import nl.dennisvanderzalm.parking.ext.suspendRunCatching
 import nl.dennisvanderzalm.parking.shared.core.usecase.RefreshTokenUseCase
+import timber.log.Timber
 
 class RefreshTokenWorker(
     appContext: Context,
@@ -13,6 +14,7 @@ class RefreshTokenWorker(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
+        Timber.d("Refreshing token")
         suspendRunCatching { refreshTokenUseCase() }
         return Result.success()
     }
