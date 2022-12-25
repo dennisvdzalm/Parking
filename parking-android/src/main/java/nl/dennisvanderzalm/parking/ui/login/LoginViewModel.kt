@@ -19,7 +19,7 @@ class LoginViewModel(
         viewModelScope.launch {
             flow {
                 emit(LoginViewState.Loading)
-                loginUseCase.get(LoginUseCase.RequestValues(username, password))
+                loginUseCase(username, password)
                 emit(LoginViewState.LoginSuccessFull)
             }.catch { throwable ->
                 Timber.e(throwable, "Unable to login")

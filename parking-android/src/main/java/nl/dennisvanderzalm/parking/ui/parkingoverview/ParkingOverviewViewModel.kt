@@ -33,8 +33,7 @@ class ParkingOverviewViewModel(
         _state.value = state.value.copy(isLoading = true)
         suspendRunCatching {
             val now = Clock.System.now()
-            getParkingHistoryUseCase.get(GetParkingHistoryUseCase.RequestValues)
-                .map { mapReservationItem(now, it) }
+            getParkingHistoryUseCase().map { mapReservationItem(now, it) }
         }.onSuccess {
             _state.value = ParkingOverviewViewState(false, it.toPersistentList())
         }.onFailure {
@@ -44,7 +43,7 @@ class ParkingOverviewViewModel(
 
     fun endReservation(reservationId: Int) {
         viewModelScope.launch {
-            endParkingReservationUseCase.get(EndParkingReservationUseCase.RequestValues(reservationId))
+            endParkingReservationUseCase(reservationId)
             getParkingHistory()
         }
     }

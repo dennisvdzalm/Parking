@@ -1,16 +1,12 @@
 package nl.dennisvanderzalm.parking.shared.core.usecase
 
-import nl.dennisvanderzalm.parking.shared.core.repository.LoginRepository
-import nl.dennisvanderzalm.parking.shared.core.usecase.base.CompletableUseCase
-import nl.dennisvanderzalm.parking.shared.core.usecase.base.UseCase
+import nl.dennisvanderzalm.parking.shared.core.repository.SessionRepository
 
 class LoginUseCase constructor(
-    private val loginRepository: LoginRepository
-) : CompletableUseCase<LoginUseCase.RequestValues> {
+    private val loginRepository: SessionRepository
+) {
 
-    override suspend fun get(requestValues: RequestValues) {
-        loginRepository.login(requestValues.username, requestValues.password)
+    suspend operator fun invoke(username: String, password: String) {
+        loginRepository.login(username, password)
     }
-
-    data class RequestValues(val username: String, val password: String) : UseCase.RequestValues
 }

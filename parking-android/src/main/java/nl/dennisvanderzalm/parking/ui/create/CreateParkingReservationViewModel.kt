@@ -30,7 +30,7 @@ class CreateParkingReservationViewModel(
     var addressBookState by mutableStateOf(AddressBookViewState())
         private set
 
-    var buttonState by mutableStateOf<CreateButtonState>(CreateButtonState())
+    var buttonState by mutableStateOf(CreateButtonState())
         private set
 
     var navigateToOverview by mutableStateOf(false)
@@ -57,7 +57,7 @@ class CreateParkingReservationViewModel(
     }
 
     private fun produceAddressBookState() {
-        val addressBookFlow = flow { emit(getAddressBookUseCase.get(GetAddressBookUseCase.RequestValues)) }
+        val addressBookFlow = flow { emit(getAddressBookUseCase()) }
         viewModelScope.launch {
             combine(
                 addressBookFlow,
@@ -112,18 +112,14 @@ class CreateParkingReservationViewModel(
         viewModelScope.launch {
             _isLoading.emit(true)
             suspendRunCatching {
-                val requestValues = ResolveParkingReservationUseCase.RequestValues(
+                resolveParkingReservationUseCase(
                     respectPaidParkingHours = respectPaidParkingHours,
                     start = now,
                     end = end,
                     licensePlateNumber = selectedLicensePlate,
                     name = "",
                     zone = zone
-                )
-
-                resolveParkingReservationUseCase.get(requestValues).forEach {
-                    createParkingReservationUseCase.get(CreateParkingReservationUseCase.RequestValues(it))
-                }
+                ).forEach { createParkingReservationUseCase(it) }
             }.onSuccess {
                 _isLoading.emit(false)
                 navigateToOverview = true

@@ -9,11 +9,11 @@ import nl.dennisvanderzalm.parking.shared.core.usecase.RefreshTokenUseCase
 class RefreshTokenWorker(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val refreshTokenUseCase: RefreshTokenUseCase
+    private val refreshTokenUseCase: RefreshTokenUseCase,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        suspendRunCatching { refreshTokenUseCase.get(RefreshTokenUseCase.RequestValues) }
+        suspendRunCatching { refreshTokenUseCase() }
         return Result.success()
     }
 }
