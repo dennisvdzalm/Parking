@@ -19,7 +19,7 @@ class ParkingAppViewModel(private val startupActionUseCase: GetStartupActionUseC
     init{
         viewModelScope.launch {
             state = withContext(Dispatchers.IO) {
-                startupActionUseCase.get(GetStartupActionUseCase.RequestValues).let {
+                startupActionUseCase().let {
                     when (it) {
                         StartupAction.ShowLogin -> AppViewState.Login
                         StartupAction.ShowOverview -> AppViewState.Overview

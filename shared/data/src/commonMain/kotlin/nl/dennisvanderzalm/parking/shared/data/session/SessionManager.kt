@@ -4,6 +4,8 @@ import nl.dennisvanderzalm.parking.shared.data.util.Base64
 import nl.dennisvanderzalm.parking.shared.data.util.SecurePreferences
 import nl.dennisvanderzalm.parking.shared.data.util.encodeToString
 
+private const val USERNAME = "USER_NAME"
+private const val PASSWORD = "PASSWORD"
 private const val TOKEN = "ACCESS_TOKEN"
 private const val PERMIT_CODE = "PERMIT_CODE"
 
@@ -21,6 +23,20 @@ class SessionManager(private val securePreferences: SecurePreferences) {
         set(value) {
             if (value != null) securePreferences.putString(PERMIT_CODE, value)
             else securePreferences.remove(PERMIT_CODE)
+        }
+
+    var userName: String? = null
+        get() = field ?: securePreferences.getString(USERNAME)?.also { field = it }
+        set(value) {
+            if (value != null) securePreferences.putString(USERNAME, Base64.encodeToString(value))
+            else securePreferences.remove(USERNAME)
+        }
+
+    var password: String? = null
+        get() = field ?: securePreferences.getString(PASSWORD)?.also { field = it }
+        set(value) {
+            if (value != null) securePreferences.putString(PASSWORD, Base64.encodeToString(value))
+            else securePreferences.remove(PASSWORD)
         }
 
     val isSessionActive: Boolean = token != null

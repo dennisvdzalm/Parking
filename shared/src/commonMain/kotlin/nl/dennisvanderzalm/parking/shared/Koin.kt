@@ -4,14 +4,12 @@ import nl.dennisvanderzalm.parking.shared.core.model.Config
 import nl.dennisvanderzalm.parking.shared.core.model.DataSourceConfig
 import nl.dennisvanderzalm.parking.shared.core.repository.AddressBookRepository
 import nl.dennisvanderzalm.parking.shared.core.repository.GuestParkingRepository
-import nl.dennisvanderzalm.parking.shared.core.repository.LoginRepository
 import nl.dennisvanderzalm.parking.shared.core.repository.SessionRepository
 import nl.dennisvanderzalm.parking.shared.core.usecase.*
 import nl.dennisvanderzalm.parking.shared.data.auth.TokenProvider
 import nl.dennisvanderzalm.parking.shared.data.repository.AppAddressBookRepository
 import nl.dennisvanderzalm.parking.shared.data.repository.AppSessionRepository
 import nl.dennisvanderzalm.parking.shared.data.repository.GuestParkingRepositoryImpl
-import nl.dennisvanderzalm.parking.shared.data.repository.LoginRepositoryImpl
 import nl.dennisvanderzalm.parking.shared.data.service.GuestParkingService
 import nl.dennisvanderzalm.parking.shared.data.service.LoginService
 import nl.dennisvanderzalm.parking.shared.data.session.SessionManager
@@ -54,9 +52,8 @@ fun initKoin(config: Config, appDeclaration: KoinAppDeclaration = {}) = startKoi
 fun initKoin(config: Config) = initKoin(config) {}
 
 private val repositoryModule = module {
-    single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
     single<GuestParkingRepository> { GuestParkingRepositoryImpl(get(), get()) }
-    single<SessionRepository> { AppSessionRepository(get()) }
+    single<SessionRepository> { AppSessionRepository(get(), get()) }
     single<AddressBookRepository> { AppAddressBookRepository(get()) }
 }
 

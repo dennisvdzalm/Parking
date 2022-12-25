@@ -5,27 +5,22 @@ import nl.dennisvanderzalm.parking.shared.core.model.DutchLicensePlateNumber
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingReservation
 import nl.dennisvanderzalm.parking.shared.core.model.ParkingZone
 import nl.dennisvanderzalm.parking.shared.core.repository.GuestParkingRepository
-import nl.dennisvanderzalm.parking.shared.core.usecase.base.UseCase
 
-class ResolveParkingReservationUseCase(private val parkingRepository: GuestParkingRepository) :
-    UseCase<ResolveParkingReservationUseCase.RequestValues, List<ParkingReservation>> {
-
-    override suspend fun get(requestValues: RequestValues): List<ParkingReservation> =
+class ResolveParkingReservationUseCase(private val parkingRepository: GuestParkingRepository) {
+    operator fun invoke(
+        respectPaidParkingHours: Boolean,
+        start: Instant,
+        end: Instant,
+        licensePlateNumber: DutchLicensePlateNumber,
+        name: String,
+        zone: ParkingZone
+    ): List<ParkingReservation> =
         parkingRepository.resolveParkingReservations(
-            requestValues.respectPaidParkingHours,
-            requestValues.start,
-            requestValues.end,
-            requestValues.licensePlateNumber,
-            requestValues.name,
-            requestValues.zone
+            respectPaidParkingHours = respectPaidParkingHours,
+            start = start,
+            end = end,
+            licensePlate = licensePlateNumber,
+            name = name,
+            zone = zone
         )
-
-    data class RequestValues(
-        val respectPaidParkingHours: Boolean,
-        val start: Instant,
-        val end: Instant,
-        val licensePlateNumber: DutchLicensePlateNumber,
-        val name: String,
-        val zone: ParkingZone
-    ) : UseCase.RequestValues
 }

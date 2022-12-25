@@ -2,7 +2,8 @@ package nl.dennisvanderzalm.parking.shared.core.repository
 
 interface SessionRepository {
 
-    fun isSessionActive(): Boolean
-
-    fun refreshToken()
+    val isSessionActive: Boolean
+    suspend fun login(username: CharSequence, password: CharSequence)
+    suspend fun refreshToken()
+    suspend fun logout()
 }
