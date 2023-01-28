@@ -39,7 +39,7 @@ class SessionManager(private val securePreferences: SecurePreferences) {
             else securePreferences.remove(PASSWORD)
         }
 
-    val isSessionActive: Boolean = token != null
+    val isSessionActive: Boolean = !token.isNullOrEmpty()
 
     fun clear() {
         token = null
