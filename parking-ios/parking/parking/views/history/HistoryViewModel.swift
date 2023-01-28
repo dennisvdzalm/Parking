@@ -7,18 +7,13 @@ import Combine
 import shared
 
 @MainActor
-class ParkingHistoryViewModel: ObservableObject {
+class HistoryViewModel: ObservableObject {
     @Published var history = [ParkingHistoryItem]()
     
     private let getParkingHistoryUseCase: GetParkingHistoryUseCase
-    private let loginUseCase: LoginUseCase
     
-    init(
-        getParkingHistoryUseCase: GetParkingHistoryUseCase,
-        loginUseCase: LoginUseCase
-    ) {
+    init(getParkingHistoryUseCase: GetParkingHistoryUseCase) {
         self.getParkingHistoryUseCase = getParkingHistoryUseCase
-        self.loginUseCase = loginUseCase
     }
     
     func getParkingHistory() async {

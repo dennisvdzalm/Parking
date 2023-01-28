@@ -10,43 +10,27 @@ import Combine
 import shared
 
 struct ContentView: View {
-    
-    @StateObject var viewModel: ParkingHistoryViewModel
-    
-    init (){
+
+    @StateObject var viewModel: ContentViewViewModel
+
+    init() {
         let helper = UseCaseHelper()
         _viewModel = StateObject(
-            wrappedValue: ParkingHistoryViewModel(
-                getParkingHistoryUseCase: helper.getParkingHistoryUseCase,
-                loginUseCase: helper.loginUseCase
-            )
+                wrappedValue: ContentViewViewModel(
+                        useCase: helper.startupActionUseCase
+                )
         )
-        
     }
-    var body: some View {
-        NavigationView {
-            List(viewModel.history, id: \.reservationId) { item in
-                       PersonView(viewModel: viewModel, historyItem: item)
-               }
-               .navigationBarTitle(Text("Parking history"))
-               .navigationBarTitleDisplayMode(.inline)
-               .task {
-                   await viewModel.getParkingHistory()
-               }
-           }
-    }
-}
 
-struct PersonView: View {
-    var viewModel: ParkingHistoryViewModel
-    var historyItem: ParkingHistoryItem
-    
+    @ViewBuilder
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(historyItem.licensePlate?.prettyNumber ?? "").font(.headline)
-                Text(historyItem.validFrom.toNSDate().formatted()).font(.subheadline)
-            }
+        switch viewModel.launchAction {
+        case .showoverview:
+            History()
+        case .showlogin:
+            Login()
+        default:
+            Login()
         }
     }
 }
@@ -56,3 +40,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
