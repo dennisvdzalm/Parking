@@ -21,7 +21,9 @@
 		164A51912985BD7200C4725A /* ContentViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164A51902985BD7200C4725A /* ContentViewViewModel.swift */; };
 		1656D7EB29856EB400B318C3 /* parking-shared.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1656D7EA29856EB400B318C3 /* parking-shared.xcframework */; };
 		1656D7EC29856EB400B318C3 /* parking-shared.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1656D7EA29856EB400B318C3 /* parking-shared.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EC0FA83AAFAC4FF94F09A875 /* Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0FA078FD4737EAD9C86750 /* Create.swift */; };
 		EC0FA8F7AEC8B1088E5E6F5F /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0FA84B650FBBEE060CB9A5 /* HistoryViewModel.swift */; };
+		EC0FAB41C0FEC3568DCACCFA /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0FAD302E5DB1AC86BA43FF /* CreateViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +74,9 @@
 		164A518E2985B42B00C4725A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		164A51902985BD7200C4725A /* ContentViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewViewModel.swift; sourceTree = "<group>"; };
 		1656D7EA29856EB400B318C3 /* parking-shared.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "parking-shared.xcframework"; path = "../../parking-swift-packages/parking-shared.xcframework"; sourceTree = "<group>"; };
+		EC0FA078FD4737EAD9C86750 /* Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Create.swift; sourceTree = "<group>"; };
 		EC0FA84B650FBBEE060CB9A5 /* HistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		EC0FAD302E5DB1AC86BA43FF /* CreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +170,7 @@
 			children = (
 				164A51872985B1A900C4725A /* history */,
 				164A51862985B19F00C4725A /* login */,
+				EC0FA1E47653F940CF1D2600 /* create */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -194,6 +199,15 @@
 				1656D7EA29856EB400B318C3 /* parking-shared.xcframework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EC0FA1E47653F940CF1D2600 /* create */ = {
+			isa = PBXGroup;
+			children = (
+				EC0FA078FD4737EAD9C86750 /* Create.swift */,
+				EC0FAD302E5DB1AC86BA43FF /* CreateViewModel.swift */,
+			);
+			path = create;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +354,8 @@
 				164A51892985B2A400C4725A /* History.swift in Sources */,
 				164A518F2985B42B00C4725A /* LoginViewModel.swift in Sources */,
 				164A51912985BD7200C4725A /* ContentViewViewModel.swift in Sources */,
+				EC0FA83AAFAC4FF94F09A875 /* Create.swift in Sources */,
+				EC0FAB41C0FEC3568DCACCFA /* CreateViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
