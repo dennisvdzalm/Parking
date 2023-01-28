@@ -11,37 +11,43 @@ import Combine
 import shared
 
 struct History: View {
-    
+
     @StateObject var viewModel: HistoryViewModel
-    
-    init (){
+
+    init() {
         let helper = UseCaseHelper()
         _viewModel = StateObject(
-            wrappedValue: HistoryViewModel(
-                getParkingHistoryUseCase: helper.getParkingHistoryUseCase
-            )
+                wrappedValue: HistoryViewModel(
+                        getParkingHistoryUseCase: helper.getParkingHistoryUseCase,
+                        endParkingHistoryUseCase: helper.endParkingHistoryUseCase
+                )
         )
-        
+
     }
-    
+
     var body: some View {
         NavigationView {
-            List(viewModel.history, id: \.reservationId) {
-                item in HistoryItem(viewModel: viewModel, historyItem: item)
+            List {
+                ForEach(viewModel.history, id: \.reservationId) { historyItem in
+                    HistoryItem(viewModel: viewModel, historyItem: historyItem)
+                }
             }
-               .navigationBarTitle(Text("Parking history"))
-               .navigationBarTitleDisplayMode(.inline)
-               .task {
-                   await viewModel.getParkingHistory()
-               }
-           }
+                    .navigationBarTitle(Text("Parking history"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarItems(trailing: NavigationLink(destination: Create()) {
+                        Image(systemName: "plus")
+                    }.padding())
+                    .task {
+                        await viewModel.getParkingHistory()
+                    }
+        }
     }
 }
 
 struct HistoryItem: View {
     var viewModel: HistoryViewModel
     var historyItem: ParkingHistoryItem
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -49,6 +55,16 @@ struct HistoryItem: View {
                 Text(historyItem.validFrom.toNSDate().formatted()).font(.subheadline)
             }
         }
+                .swipeActions(allowsFullSwipe: false) {
+                    Button {
+                        Task {
+                            await viewModel.endParkingReservation(reservationId: historyItem.reservationId)
+                        }
+                    } label: {
+                        Label("Stop", systemImage: "xmark.circle")
+                    }
+                            .tint(.red)
+                }
     }
 }
 

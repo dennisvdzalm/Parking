@@ -9,30 +9,31 @@ import SwiftUI
 import shared
 
 struct Login: View {
-    @StateObject var viewModel : LoginViewModel
-    
-    init (){
+    @StateObject var viewModel: LoginViewModel
+
+    init() {
         let helper = UseCaseHelper()
         _viewModel = StateObject(
-            wrappedValue: LoginViewModel(loginUseCase: helper.loginUseCase)
+                wrappedValue: LoginViewModel(loginUseCase: helper.loginUseCase)
         )
-        
     }
-    
+
     var body: some View {
         VStack {
-            TextField("Email", text: $viewModel.email)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(5)
-            
+            TextField("Passcode", text: $viewModel.passcode)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(5)
+
             SecureField("Password", text: $viewModel.password)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(5)
-            
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(5)
+
             Button(action: {
-                self.viewModel.login()
+                Task {
+                    await viewModel.login()
+                }
             }) {
                 Text("Login")
             }
