@@ -24,7 +24,7 @@ import kotlin.time.toJavaDuration
 class ParkingApplication : Application() {
 
     private val config = Config(
-        DataSourceConfig.Remote("parkeren.leiden.nl/DVSWebAPI/api")
+        DataSourceConfig.Remote("parkeren.leiden.nl")
     )
 
     override fun onCreate() {
@@ -32,6 +32,7 @@ class ParkingApplication : Application() {
 
         initKoin(config) {
             androidContext(this@ParkingApplication)
+            workManagerFactory()
             modules(
                 module {
                     viewModel { LoginViewModel(get()) }
@@ -42,7 +43,6 @@ class ParkingApplication : Application() {
                     worker { RefreshTokenWorker(androidContext(), get(), get()) }
                 }
             )
-            workManagerFactory()
         }
 
         Timber.plant(Timber.DebugTree())
