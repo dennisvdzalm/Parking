@@ -114,13 +114,14 @@ object Dependencies {
     }
 
     object Ktor {
-        private const val version = "1.6.0"
-        val client_android = "io.ktor:ktor-client-android:${version}"
-        val client_ios = "io.ktor:ktor-client-ios:${version}"
+        private const val version = "2.2.2"
+        val client_okhttp = "io.ktor:ktor-client-okhttp:${version}"
+        val client_darwin = "io.ktor:ktor-client-darwin:${version}"
         val client_core = "io.ktor:ktor-client-core:${version}"
-        val serialization = "io.ktor:ktor-client-serialization:${version}"
+        val serialization = "io.ktor:ktor-serialization-kotlinx-json:${version}"
         val logging = "io.ktor:ktor-client-logging:${version}"
         val auth = "io.ktor:ktor-client-auth:${version}"
+        val content_negotiation = "io.ktor:ktor-client-content-negotiation:${version}"
     }
 
     object Kotlinx {
@@ -134,13 +135,13 @@ object Dependencies {
         }
 
         object Coroutines {
-            private const val version = "1.6.0"
+            private const val version = "1.6.4"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${version}"
             val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${version}"
         }
 
         object DateTime {
-            private const val version = "0.3.2"
+            private const val version = "0.4.0"
             val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${version}"
         }
     }
@@ -172,15 +173,6 @@ object Dependencies {
     object Viewbinding {
         private const val version = "1.4.5"
         val delegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:${version}"
-    }
-
-    object SqlDelight {
-        private const val version = "1.5.0"
-        val gradle_plugin = "com.squareup.sqldelight:gradle-plugin:${version}"
-        val runtime = "com.squareup.sqldelight:runtime:${version}"
-        val coroutinesExtensions = "com.squareup.sqldelight:coroutines-extensions:${version}"
-        val android_driver = "com.squareup.sqldelight:android-driver:${version}"
-        val ios_driver = "com.squareup.sqldelight:native-driver:${version}"
     }
 
     object MultiPlatformSettings {
