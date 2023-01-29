@@ -12,6 +12,7 @@ import shared
 
 struct History: View {
 
+    @EnvironmentObject var appStateViewModel: AppStateViewModel
     @StateObject var viewModel: HistoryViewModel
 
     init() {
@@ -19,7 +20,8 @@ struct History: View {
         _viewModel = StateObject(
                 wrappedValue: HistoryViewModel(
                         getParkingHistoryUseCase: helper.getParkingHistoryUseCase,
-                        endParkingHistoryUseCase: helper.endParkingHistoryUseCase
+                        endParkingHistoryUseCase: helper.endParkingHistoryUseCase,
+                        logoutUseCase: helper.logoutUseCase
                 )
         )
 
@@ -34,9 +36,19 @@ struct History: View {
             }
                     .navigationBarTitle(Text("Parking history"))
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(trailing: NavigationLink(destination: Create()) {
-                        Image(systemName: "plus")
-                    }.padding())
+                    .navigationBarItems(
+                            leading: Button(
+                                    action: {
+                                        Task {
+                                            await viewModel.logout()
+                                            appStateViewModel.onLoggedOut()
+                                        }
+                                    },
+                                    label: { Text("Log out") }
+                            ),
+                            trailing: NavigationLink(destination: Create()) {
+                                Image(systemName: "plus")
+                            })
                     .task {
                         await viewModel.getParkingHistory()
                     }

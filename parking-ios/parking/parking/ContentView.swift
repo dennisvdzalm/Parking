@@ -11,12 +11,12 @@ import shared
 
 struct ContentView: View {
 
-    @StateObject var viewModel: ContentViewViewModel
+    @StateObject var viewModel: AppStateViewModel
 
     init() {
         let helper = UseCaseHelper()
         _viewModel = StateObject(
-                wrappedValue: ContentViewViewModel(
+                wrappedValue: AppStateViewModel(
                         useCase: helper.startupActionUseCase
                 )
         )
@@ -26,11 +26,11 @@ struct ContentView: View {
     var body: some View {
         switch viewModel.launchAction {
         case .showoverview:
-            History()
+            History().environmentObject(viewModel)
         case .showlogin:
-            Login()
+            Login().environmentObject(viewModel)
         default:
-            Login()
+            Login().environmentObject(viewModel)
         }
     }
 }
