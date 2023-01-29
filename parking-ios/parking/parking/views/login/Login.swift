@@ -9,6 +9,7 @@ import SwiftUI
 import shared
 
 struct Login: View {
+    @EnvironmentObject var appStateViewModel: AppStateViewModel
     @StateObject var viewModel: LoginViewModel
 
     init() {
@@ -21,22 +22,21 @@ struct Login: View {
     var body: some View {
         VStack {
             TextField("Passcode", text: $viewModel.passcode)
-                    .padding()
-                    .background(Color.white)
                     .cornerRadius(5)
+                    .padding()
 
             SecureField("Password", text: $viewModel.password)
-                    .padding()
-                    .background(Color.white)
                     .cornerRadius(5)
+                    .padding()
 
             Button(action: {
                 Task {
                     await viewModel.login()
+                    appStateViewModel.onLoggedIn()
                 }
             }) {
                 Text("Login")
-            }
+            }.padding()
         }
     }
 }

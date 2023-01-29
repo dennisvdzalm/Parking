@@ -48,7 +48,7 @@ struct Create: View {
                     }
                 }) {
                     Text("Create")
-                }
+                }.padding()
             }
         }
                 .navigationBarTitle(Text("Create parking reservation"))

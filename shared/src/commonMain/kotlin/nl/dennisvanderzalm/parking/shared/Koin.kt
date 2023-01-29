@@ -88,5 +88,6 @@ private val useCaseModule = module {
     single { ResolveParkingReservationUseCase(get()) }
     single { GetStartupActionUseCase(get()) }
     single { GetAddressBookUseCase(get()) }
+    single { LogoutUseCase(get()) }
     single { RefreshTokenUseCase(get()) }
 }

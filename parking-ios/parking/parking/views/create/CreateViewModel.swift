@@ -12,7 +12,6 @@ class CreateViewModel: ObservableObject {
     @Published var addressBook = [AddressBookItem]()
     @Published var respectPaidParkingHours = true
     @Published var parkingZone = ParkingZone.zonea
-    @Published var start = Date.now
     @Published var end = Date.now
 
 
@@ -62,8 +61,8 @@ class CreateViewModel: ObservableObject {
 
     func createParkingReservation() async {
         do {
-            let licensePlate = DutchLicensePlateNumber.companion.parse(number: self.licensePlate)
-            let startInstant = Instant.companion.fromEpochMilliseconds(epochMilliseconds: Int64(start.timeIntervalSince1970) * 1000)
+            let licensePlate = DutchLicensePlateNumber.companion.parse(number: licensePlate)
+            let startInstant = Instant.companion.fromEpochMilliseconds(epochMilliseconds: Int64(Date.now.timeIntervalSince1970) * 1000)
             let endInstant = Instant.companion.fromEpochMilliseconds(epochMilliseconds: Int64(end.timeIntervalSince1970) * 1000)
             let reservations = resolveParkingReservationUseCase.invoke(
                     respectPaidParkingHours: respectPaidParkingHours,
