@@ -1,4 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.tasks.UsesKotlinJavaToolchain
+import org.jetbrains.kotlin.js.translate.context.Namer.kotlin
 
 buildscript {
     repositories {
@@ -8,7 +10,7 @@ buildscript {
 
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ProjectConfig.kotlinVersion}")
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.android.tools.build:gradle:7.4.2")
     }
 }
 
@@ -17,7 +19,12 @@ version = "1.0-SNAPSHOT"
 
 plugins {
     BenManesVersions
+    kotlin("android").version("1.8.10").apply(false)
+    kotlin("multiplatform").version("1.8.10").apply(false)
+    id("org.jetbrains.compose").version("1.4.0").apply(false)
 }
+
+
 
 allprojects {
     repositories {
@@ -48,18 +55,6 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     }
 }
 
-subprojects {
-    tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = ProjectConfig.javaVersion.toString()
-        targetCompatibility = ProjectConfig.javaVersion.toString()
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = ProjectConfig.javaVersion.toString()
-        }
-    }
-}
 
 tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)

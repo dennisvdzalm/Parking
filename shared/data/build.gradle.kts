@@ -9,16 +9,9 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
     android()
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "data"
-        }
-    }
-
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     repositories {
         google()
@@ -54,12 +47,6 @@ kotlin {
                 implementation(Dependencies.Androidx.Security.crypto)
             }
         }
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(Dependencies.JUnit.junit)
-            }
-        }
 
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -72,15 +59,6 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Ktor.client_darwin)
             }
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
@@ -98,5 +76,14 @@ android {
         }
     }
     namespace = "nl.dennisvanderzalm.parking.shared.data"
+
+    compileOptions {
+        sourceCompatibility = ProjectConfig.javaVersion
+        targetCompatibility = ProjectConfig.javaVersion
+    }
+
+    kotlin {
+        jvmToolchain(ProjectConfig.jdkVersion)
+    }
 }
 

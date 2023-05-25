@@ -11,8 +11,7 @@ import shared
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let config = Config(dataSourceConfig: DataSourceConfig.Remote(parkingApiHost: "parkeren.leiden.nl"))
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {  let config = Config(dataSourceConfig: DataSourceConfig.Remote(parkingApiHost: "parkeren.leiden.nl"))
         KoinKt.doInitKoin(config: config)
         return true
     }

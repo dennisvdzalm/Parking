@@ -3,7 +3,7 @@ package nl.dennisvanderzalm.parking.data
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import nl.dennisvanderzalm.parking.ext.suspendRunCatching
+import nl.dennisvanderzalm.parking.shared.core.ext.suspendRunCatching
 import nl.dennisvanderzalm.parking.shared.core.usecase.RefreshTokenUseCase
 import timber.log.Timber
 

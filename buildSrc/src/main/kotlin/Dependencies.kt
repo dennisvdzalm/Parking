@@ -71,7 +71,7 @@ object Dependencies {
         }
 
         object Compose {
-            const val bom = "androidx.compose:compose-bom:2022.12.00"
+            const val bom = "androidx.compose:compose-bom:2023.04.01"
             const val ui = "androidx.compose.ui:ui"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
             const val preview = "androidx.compose.ui:ui-tooling-preview"
@@ -109,7 +109,7 @@ object Dependencies {
     }
 
     object Timber {
-        private const val version = "4.7.1"
+        private const val version = "5.0.1"
         val timber = "com.jakewharton.timber:timber:${version}"
     }
 
@@ -147,13 +147,15 @@ object Dependencies {
     }
 
     object Koin {
-        private const val composeVersion = "3.4.0"
-        private const val coreVersion = "3.3.0"
-        private const val androidVersion = "3.3.1"
+        private const val composeAndroidxVersion = "3.4.0"
+        private const val coreVersion = "3.4.0"
+        private const val androidVersion = "3.4.0"
+        private const val composeVersion = "1.0.1"
         val core = "io.insert-koin:koin-core:$coreVersion"
         val android = "io.insert-koin:koin-android:$androidVersion"
         val workmanager = "io.insert-koin:koin-androidx-workmanager:$androidVersion"
-        val compose = "io.insert-koin:koin-androidx-compose:$composeVersion"
+        val androidxCompose = "io.insert-koin:koin-androidx-compose:$composeAndroidxVersion"
+        val compose = "io.insert-koin:koin-compose:$composeVersion"
     }
 
     object MlKit {

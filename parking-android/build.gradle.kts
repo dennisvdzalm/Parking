@@ -16,7 +16,7 @@ android {
         versionName = "1.0"
     }
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
             isMinifyEnabled = false
         }
     }
@@ -27,11 +27,17 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.6"
     }
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = ProjectConfig.javaVersion
+        targetCompatibility = ProjectConfig.javaVersion
+    }
+
+    kotlin {
+        jvmToolchain(ProjectConfig.jdkVersion)
     }
 
     namespace = "nl.dennisvanderzalm.parking"
@@ -39,7 +45,6 @@ android {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = ProjectConfig.javaVersion.toString()
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${buildDir}/composeReports"
@@ -83,7 +88,7 @@ dependencies {
     //koin
     implementation(Dependencies.Koin.android)
     implementation(Dependencies.Koin.workmanager)
-    implementation(Dependencies.Koin.compose)
+    implementation(Dependencies.Koin.androidxCompose)
 
     implementation(Dependencies.Kotlinx.DateTime.datetime)
     implementation(Dependencies.Kotlinx.Collections.immutable)

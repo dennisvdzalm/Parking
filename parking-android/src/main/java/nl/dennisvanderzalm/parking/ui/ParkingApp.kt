@@ -9,43 +9,20 @@ import androidx.navigation.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import nl.dennisvanderzalm.parking.ui.create.CreateParkingReservation
-import nl.dennisvanderzalm.parking.ui.login.Login
 import nl.dennisvanderzalm.parking.ui.navigation.Screen
-import nl.dennisvanderzalm.parking.ui.parkingoverview.ParkingOverview
-import org.koin.androidx.compose.getViewModel
-
-@Composable
-fun ParkingApp() {
-    val viewModel: ParkingAppViewModel = getViewModel()
-
-    val dest = when (viewModel.state) {
-        AppViewState.Bootstrapping -> null
-        AppViewState.Login -> Screen.Login
-        AppViewState.Overview -> Screen.ParkingOverview
-    }
-
-    if (dest != null) {
-        ParkingContent(dest)
-    }
-}
+import nl.dennisvanderzalm.parking.shared.ui.parkingoverview.ParkingOverview
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ParkingContent(startDest: Screen) {
+private fun ParkingContent(startDest: Screen) {
     val navController = rememberAnimatedNavController()
 
     Surface(color = MaterialTheme.colors.background) {
         AnimatedNavHost(navController = navController, startDestination = startDest.route) {
             composable(Screen.Login) {
-                Login {
-                    navController.navigate(Screen.ParkingOverview) {
-                        popUpTo(Screen.Login) { inclusive = true }
-                    }
-                }
             }
             composable(Screen.ParkingOverview) { ParkingOverview { navController.navigate(Screen.CreateParking) } }
-            composable(Screen.CreateParking) { CreateParkingReservation { navController.popBackStack(Screen.ParkingOverview.route, false) } }
+            composable(Screen.CreateParking) { }
         }
     }
 }

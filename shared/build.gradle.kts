@@ -6,7 +6,9 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    kotlin("native.cocoapods")
     id("com.chromaticnoise.multiplatform-swiftpackage") version "2.0.3"
+    id("org.jetbrains.compose")
 }
 
 group = "nl.dennisvanderzalm.parking"
@@ -25,33 +27,42 @@ android {
         }
     }
     namespace = "nl.dennisvanderzalm.parking.shared"
+    compileOptions {
+        sourceCompatibility = ProjectConfig.javaVersion
+        targetCompatibility = ProjectConfig.javaVersion
+    }
+
+    kotlin {
+        jvmToolchain(ProjectConfig.jdkVersion)
+    }
 }
 
 kotlin {
     android()
 
-    val xcf = XCFramework()
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-            xcf.add(this)
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    targets.withType<KotlinNativeTarget> {
-        binaries.withType<Framework> {
-            isStatic = false
+    cocoapods {
+        version = "1.0.0"
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../parking-ios/parking/Podfile")
+        framework {
+            baseName = "shared"
+            isStatic = true
+
+            binaryOption("bundleId", "nl.dennisvanderzalm.shared")
 
             export(project(":shared:core"))
             export(project(":shared:data"))
-
-            embedBitcode(BitcodeEmbeddingMode.BITCODE)
-            transitiveExport = true
+            export(project(":shared:ui"))
         }
+        extraSpecAttributes["resources"] =
+            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     sourceSets {
@@ -59,7 +70,13 @@ kotlin {
             dependencies {
                 api(project(":shared:data"))
                 api(project(":shared:core"))
-                api(Dependencies.Koin.core)
+                api(project(":shared:ui"))
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+                implementation(Dependencies.Koin.core)
             }
         }
 
@@ -71,13 +88,11 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                api("androidx.activity:activity-compose:1.7.1")
+                api("androidx.appcompat:appcompat:1.6.1")
+                api("androidx.core:core-ktx:1.10.0")
+
                 implementation(Dependencies.Androidx.Material.androidx_material)
-            }
-        }
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(Dependencies.JUnit.junit)
             }
         }
 
@@ -89,15 +104,6 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
