@@ -12,13 +12,16 @@ class HistoryViewModel: ObservableObject {
 
     private let getParkingHistoryUseCase: GetParkingHistoryUseCase
     private let endParkingHistoryUseCase: EndParkingReservationUseCase
+    private let logoutUseCase: LogoutUseCase
 
     init(
             getParkingHistoryUseCase: GetParkingHistoryUseCase,
-            endParkingHistoryUseCase: EndParkingReservationUseCase
+            endParkingHistoryUseCase: EndParkingReservationUseCase,
+            logoutUseCase: LogoutUseCase
     ) {
         self.getParkingHistoryUseCase = getParkingHistoryUseCase
         self.endParkingHistoryUseCase = endParkingHistoryUseCase
+        self.logoutUseCase = logoutUseCase
     }
 
     func getParkingHistory() async {
@@ -32,6 +35,14 @@ class HistoryViewModel: ObservableObject {
     func endParkingReservation(reservationId: Int32) async {
         do {
             try await endParkingHistoryUseCase.invoke(reservationId: reservationId)
+        } catch {
+            print("Failed to stop transaction \(error)")
+        }
+    }
+
+    func logout() async {
+        do {
+            try await logoutUseCase.invoke()
         } catch {
             print("Failed to stop transaction \(error)")
         }
